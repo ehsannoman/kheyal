@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+
+    <title>লগইন - খেয়াল</title>
+
+    @vite('resources/css/app.css')
+
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+
+<body class="h-[100dvh] overflow-hidden bg-[#F8FAFC] font-body">
+
+    <div
+        class="w-full h-[100dvh] overflow-hidden
+               grid grid-cols-1
+               lg:grid-cols-[1.05fr_0.95fr]"
+    >
+
+
+        {{-- =====================================================
+             LEFT SIDE — BRANDING
+        ====================================================== --}}
+        <section
+            class="relative hidden lg:flex
+                   h-[100dvh] overflow-hidden
+                   bg-[#0F1B3D]
+                   px-8 py-7
+                   xl:px-16 xl:py-10
+                   flex-col justify-between"
+        >
+
+
+            {{-- Background --}}
+            <div
+                class="absolute inset-0
+                       pointer-events-none
+                       overflow-hidden"
+            >
+
+                <div
+                    class="absolute inset-0
+                           bg-gradient-to-br
+                           from-[#172554]
+                           via-[#0F1B3D]
+                           to-[#080F24]"
+                >
+                </div>
+
+
+                {{-- Coral glow --}}
+                <div
+                    class="absolute
+                           -top-40 -right-40
+                           w-[32rem] h-[32rem]
+                           rounded-full
+                           bg-[#FF5C5C]/10
+                           blur-3xl"
+                >
+                </div>
+
+
+                <div
+                    class="absolute
+                           -bottom-40 -left-32
+                           w-[28rem] h-[28rem]
+                           rounded-full
+                           bg-[#FF5C5C]/10
+                           blur-3xl"
+                >
+                </div>
+
+
+                {{-- Decorative circles --}}
+                <div
+                    class="absolute
+                           top-12 right-10
+                           w-80 h-80
+                           rounded-full
+                           border border-white/[0.04]"
+                >
+                </div>
+
+
+                <div
+                    class="absolute
+                           top-24 right-22
+                           w-56 h-56
+                           rounded-full
+                           border border-white/[0.04]"
+                >
+                </div>
+
+
+                {{-- Small dots --}}
+                <div
+                    class="absolute
+                           bottom-24 right-24
+                           w-3 h-3
+                           rounded-full
+                           bg-[#FF5C5C]/40"
+                >
+                </div>
+
+                {{-- =================================================
+                    IMAGE-BASED BRAND
+                ================================================== --}}
+                <div
+                    class="absolute
+                           bottom-36 right-40
+                           w-2 h-2
+                           rounded-full
+                           bg-white/20"
+                >
+                </div>
+
+            </div>
+
+
+            <div class="relative z-10">
+
+                <img
+                    src="{{ asset('images/logo.png') }}"
+                    alt="খেয়াল"
+                    class="w-64 xl:w-72 h-auto object-contain"
+                >
+
+            </div>
+
+
+
+            {{-- =================================================
+                 MAIN CONTENT
+            ================================================== --}}
+            <div
+                class="relative z-10
+                       max-w-xl
+                       -mt-4"
+            >
+
+
+                {{-- Status badge --}}
+                <div
+                    class="inline-flex
+                           items-center gap-2
+                           px-4 py-2
+                           mb-5 xl:mb-7
+                           rounded-full
+                           bg-white/[0.06]
+                           border border-white/[0.10]
+                           backdrop-blur-sm
+                           text-white/65
+                           text-sm"
+                >
+
+                    <span
+                        class="relative
+                               flex
+                               w-2.5 h-2.5"
+                    >
+
+                        <span
+                            class="absolute
+                                   inline-flex
+                                   w-full h-full
+                                   rounded-full
+                                   bg-[#FF5C5C]
+                                   opacity-75
+                                   animate-ping"
+                        >
+                        </span>
+
+
+                        <span
+                            class="relative
+                                   inline-flex
+                                   w-2.5 h-2.5
+                                   rounded-full
+                                   bg-[#FF5C5C]"
+                        >
+                        </span>
+
+                    </span>
+
+                    আপনার প্রিয়জনের যত্নে, সবসময় পাশে
+
+                </div>
+
+
+
+                {{-- Main heading --}}
+                <h1
+                    class="font-heading
+                           font-extrabold
+                           text-white
+                           tracking-tight
+                           leading-[1.08]
+                           text-[clamp(3rem,5vw,5rem)]
+                           mb-8"
+                >
+
+                    যত্ন থাকে
+
+                    <br>
+
+                    <span
+                        class="text-transparent
+                               bg-clip-text
+                               bg-gradient-to-r
+                               from-[#FF5C5C]
+                               via-[#FF7168]
+                               to-[#FF9B91]"
+                    >
+                        খেয়ালে।
+                    </span>
+
+                </h1>
+
+
+
+                {{-- Feature cards --}}
+                <div
+                    class="grid
+                           grid-cols-3
+                           gap-3
+                           max-w-xl"
+                >
+
+
+                    {{-- Medicine --}}
+                    <div
+                        class="p-3 xl:p-4
+                               rounded-2xl
+                               bg-white/[0.06]
+                               border border-white/[0.10]
+                               backdrop-blur-sm
+                               transition
+                               duration-300
+                               hover:bg-white/[0.10]
+                               hover:-translate-y-1"
+                    >
+
+                        <div
+                            class="w-10 h-10
+                                   xl:w-11 xl:h-11
+                                   mb-3
+                                   rounded-xl
+                                   bg-[#FF5C5C]/15
+                                   text-[#FF6B63]
+                                   flex
+                                   items-center
+                                   justify-center"
+                        >
+
+                            <svg
+                                class="w-5 h-5"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M10.5 3.75L20.25 13.5
+                                       a4.243 4.243 0 01-6 6
+                                       L4.5 9.75a4.243 4.243
+                                       0 016-6z"
+                                />
+                            </svg>
+
+                        </div>
+
+
+                        <p
+                            class="text-xs
+                                   xl:text-sm
+                                   font-medium
+                                   text-white/85"
+                        >
+                            ওষুধ স্মরণিকা
+                        </p>
+
+                    </div>
+
+
+
+                    {{-- Check-in --}}
+                    <div
+                        class="p-3 xl:p-4
+                               rounded-2xl
+                               bg-white/[0.06]
+                               border border-white/[0.10]
+                               backdrop-blur-sm
+                               transition
+                               duration-300
+                               hover:bg-white/[0.10]
+                               hover:-translate-y-1"
+                    >
+
+                        <div
+                            class="w-10 h-10
+                                   xl:w-11 xl:h-11
+                                   mb-3
+                                   rounded-xl
+                                   bg-[#FF5C5C]/15
+                                   text-[#FF6B63]
+                                   flex
+                                   items-center
+                                   justify-center"
+                        >
+
+                            <svg
+                                class="w-5 h-5"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M12 8v4l3 3
+                                       m6-3
+                                       a9 9 0 11-18 0
+                                       a9 9 0 0118 0z"
+                                />
+                            </svg>
+
+                        </div>
+
+
+                        <p
+                            class="text-xs
+                                   xl:text-sm
+                                   font-medium
+                                   text-white/85"
+                        >
+                            দৈনিক চেক-ইন
+                        </p>
+
+                    </div>
+
+
+
+                    {{-- SOS --}}
+                    <div
+                        class="p-3 xl:p-4
+                               rounded-2xl
+                               bg-white/[0.06]
+                               border border-white/[0.10]
+                               backdrop-blur-sm
+                               transition
+                               duration-300
+                               hover:bg-white/[0.10]
+                               hover:-translate-y-1"
+                    >
+
+                        <div
+                            class="w-10 h-10
+                                   xl:w-11 xl:h-11
+                                   mb-3
+                                   rounded-xl
+                                   bg-[#FF5C5C]/15
+                                   text-[#FF6B63]
+                                   flex
+                                   items-center
+                                   justify-center
+                                   font-bold"
+                        >
+                            SOS
+                        </div>
+
+
+                        <p
+                            class="text-xs
+                                   xl:text-sm
+                                   font-medium
+                                   text-white/85"
+                        >
+                            জরুরি সহায়তা
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            {{-- Bottom text --}}
+            <div
+                class="relative z-10
+                       flex items-center
+                       gap-3
+                       text-sm
+                       text-white/35"
+            >
+
+                <div
+                    class="h-px
+                           w-10
+                           bg-white/20"
+                >
+                </div>
+
+                দূরে থেকেও থাকুন পাশে
+
+            </div>
+
+        </section>
+
+
+
+        {{-- =====================================================
+             RIGHT SIDE — LOGIN
+        ====================================================== --}}
+        <main
+            class="relative
+                   h-[100dvh]
+                   overflow-hidden
+                   flex
+                   items-center
+                   justify-center
+                   px-6 py-4
+                   sm:px-10
+                   lg:px-12
+                   xl:px-20"
+        >
+
+
+            {{-- Mobile background glow --}}
+            <div
+                class="absolute
+                       -top-20 -right-20
+                       w-72 h-72
+                       bg-[#FF5C5C]/5
+                       rounded-full
+                       blur-3xl
+                       lg:hidden
+                       pointer-events-none"
+            >
+            </div>
+
+
+
+            {{-- Mobile brand --}}
+            <div
+                class="absolute
+                       top-5 left-6
+                       sm:top-7 sm:left-10
+                       lg:hidden
+                       z-10"
+            >
+
+                <div class="flex items-center gap-2.5">
+
+                    <div
+                        class="relative
+                               w-10 h-10
+                               rounded-xl
+                               bg-[#0F1B3D]
+                               flex
+                               items-center
+                               justify-center"
+                    >
+
+                        <div
+                            class="w-4 h-4
+                                   bg-[#FF5C5C]
+                                   rounded-t-full
+                                   rotate-45
+                                   -translate-y-[2px]"
+                        >
+                        </div>
+
+                    </div>
+
+
+                    <div>
+
+                        <div
+                            class="text-2xl
+                                   font-heading
+                                   font-bold
+                                   text-[#0F1B3D]"
+                        >
+                            খেয়াল
+                        </div>
+
+                        <p
+                            class="text-[8px]
+                                   tracking-[0.14em]
+                                   uppercase
+                                   text-[#FF5C5C]"
+                        >
+                            Care that remembers
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            {{-- =================================================
+                 LOGIN CONTENT
+            ================================================== --}}
+            <div
+                class="relative z-10
+                       w-full
+                       max-w-md
+                       scale-[0.92]
+                       sm:scale-[0.96]
+                       xl:scale-100
+                       origin-center"
+            >
+
+
+                {{-- Heading --}}
+                <div
+                    class="mb-6
+                           xl:mb-8"
+                >
+
+                    <div
+                        class="inline-flex
+                               items-center
+                               justify-center
+                               w-12 h-12
+                               xl:w-14 xl:h-14
+                               rounded-2xl
+                               mb-4
+                               bg-[#FF5C5C]/10
+                               text-[#FF5C5C]"
+                    >
+
+                        <svg
+                            class="w-6 h-6
+                                   xl:w-7 xl:h-7"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="1.8"
+                                d="M15.75 9V5.25
+                                   A2.25 2.25 0 0013.5 3h-6
+                                   a2.25 2.25 0 00-2.25 2.25v13.5
+                                   A2.25 2.25 0 007.5 21h6
+                                   a2.25 2.25 0 002.25-2.25V15"
+                            />
+
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="1.8"
+                                d="M12 9l3-3
+                                   m0 0l-3-3
+                                   m3 3H6"
+                            />
+
+                        </svg>
+
+                    </div>
+
+
+                    <h2
+                        class="text-3xl
+                               font-heading
+                               font-bold
+                               text-[#0F1B3D]
+                               tracking-tight
+                               mb-2"
+                    >
+                        স্বাগতম ফিরে এসেছেন
+                    </h2>
+
+
+                    <p
+                        class="text-charcoal/55
+                               leading-relaxed"
+                    >
+                        আপনার অ্যাকাউন্টে লগইন করুন
+                    </p>
+
+                </div>
+
+
+
+                {{-- =================================================
+                     LOGIN FORM
+                ================================================== --}}
+                <form
+                    id="loginForm"
+                    class="space-y-4"
+                >
+
+
+                    {{-- Email --}}
+                    <div>
+
+                        <label
+                            class="block
+                                   mb-2
+                                   text-sm
+                                   font-semibold
+                                   text-[#0F1B3D]"
+                        >
+                            ইমেইল ঠিকানা
+                        </label>
+
+
+                        <div class="relative">
+
+                            <span
+                                class="absolute
+                                       left-4 top-1/2
+                                       -translate-y-1/2
+                                       text-charcoal/35"
+                            >
+
+                                <svg
+                                    class="w-5 h-5"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="1.8"
+                                        d="M21.75 6.75v10.5
+                                           a2.25 2.25 0 01-2.25 2.25H4.5
+                                           a2.25 2.25 0 01-2.25-2.25V6.75
+
+                                           m19.5 0
+                                           A2.25 2.25 0 0019.5 4.5H4.5
+                                           a2.25 2.25 0 00-2.25 2.25
+
+                                           m19.5 0v.243
+                                           a2.25 2.25 0 01-.966 1.855
+                                           l-7.5 5.25
+                                           a2.25 2.25 0 01-2.568 0
+                                           l-7.5-5.25
+                                           A2.25 2.25 0 012.25 6.993"
+                                    />
+
+                                </svg>
+
+                            </span>
+
+
+                            <input
+                                type="email"
+                                id="email"
+                                required
+                                autocomplete="email"
+                                placeholder="you@example.com"
+                                class="w-full
+                                       h-[52px]
+                                       xl:h-[56px]
+                                       pl-12 pr-4
+                                       rounded-xl
+                                       bg-white
+                                       border border-slate-200
+                                       text-charcoal
+                                       placeholder:text-charcoal/30
+                                       shadow-sm
+                                       outline-none
+                                       transition-all
+                                       duration-200
+                                       focus:border-[#FF5C5C]
+                                       focus:ring-4
+                                       focus:ring-[#FF5C5C]/10"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    {{-- Password --}}
+                    <div>
+
+                        <div
+                            class="flex
+                                   items-center
+                                   justify-between
+                                   mb-2"
+                        >
+
+                            <label
+                                class="text-sm
+                                       font-semibold
+                                       text-[#0F1B3D]"
+                            >
+                                পাসওয়ার্ড
+                            </label>
+
+
+                            <a
+                                href="#"
+                                class="text-xs
+                                       font-medium
+                                       text-[#FF5C5C]
+                                       hover:text-[#E64B4B]
+                                       transition"
+                            >
+                                পাসওয়ার্ড ভুলে গেছেন?
+                            </a>
+
+                        </div>
+
+
+                        <div class="relative">
+
+                            <span
+                                class="absolute
+                                       left-4 top-1/2
+                                       -translate-y-1/2
+                                       text-charcoal/35"
+                            >
+
+                                <svg
+                                    class="w-5 h-5"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+
+                                    <rect
+                                        x="5"
+                                        y="10"
+                                        width="14"
+                                        height="10"
+                                        rx="2"
+                                        stroke="currentColor"
+                                        stroke-width="1.8"
+                                    />
+
+                                    <path
+                                        d="M8 10V7
+                                           a4 4 0 018 0v3"
+                                        stroke="currentColor"
+                                        stroke-width="1.8"
+                                        stroke-linecap="round"
+                                    />
+
+                                </svg>
+
+                            </span>
+
+
+                            <input
+                                type="password"
+                                id="password"
+                                required
+                                autocomplete="current-password"
+                                placeholder="••••••••"
+                                class="w-full
+                                       h-[52px]
+                                       xl:h-[56px]
+                                       pl-12 pr-12
+                                       rounded-xl
+                                       bg-white
+                                       border border-slate-200
+                                       text-charcoal
+                                       placeholder:text-charcoal/30
+                                       shadow-sm
+                                       outline-none
+                                       transition-all
+                                       duration-200
+                                       focus:border-[#FF5C5C]
+                                       focus:ring-4
+                                       focus:ring-[#FF5C5C]/10"
+                            >
+
+
+                            {{-- Show / Hide Password --}}
+                            <button
+                                type="button"
+                                id="togglePassword"
+                                class="absolute
+                                       right-4 top-1/2
+                                       -translate-y-1/2
+                                       text-charcoal/35
+                                       hover:text-[#0F1B3D]
+                                       transition"
+                                aria-label="পাসওয়ার্ড দেখুন"
+                            >
+
+                                <svg
+                                    class="w-5 h-5"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="1.8"
+                                        d="M2.25 12
+                                           S5.25 5.25 12 5.25
+                                           S21.75 12 21.75 12
+                                           S18.75 18.75 12 18.75
+                                           S2.25 12 2.25 12Z"
+                                    />
+
+                                    <circle
+                                        cx="12"
+                                        cy="12"
+                                        r="2.5"
+                                        stroke="currentColor"
+                                        stroke-width="1.8"
+                                    />
+
+                                </svg>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+
+                    {{-- Error Message --}}
+                    <div
+                        id="errorMsg"
+                        class="hidden
+                               rounded-xl
+                               bg-red-50
+                               border border-red-100
+                               px-4 py-3
+                               text-sm
+                               text-red-600"
+                    >
+                    </div>
+
+
+
+                    {{-- Login Button --}}
+                    <button
+                        type="submit"
+                        id="loginButton"
+                        class="group
+                               w-full
+                               h-[52px]
+                               xl:h-[56px]
+                               mt-1
+                               rounded-xl
+                               bg-[#FF5C5C]
+                               hover:bg-[#EF5050]
+                               text-white
+                               font-semibold
+                               shadow-lg
+                               shadow-[#FF5C5C]/20
+                               hover:shadow-xl
+                               hover:shadow-[#FF5C5C]/25
+                               transition-all
+                               duration-200
+                               active:scale-[0.99]
+                               flex
+                               items-center
+                               justify-center
+                               gap-2"
+                    >
+
+                        <span>লগইন করুন</span>
+
+
+                        <svg
+                            class="w-4 h-4
+                                   transition-transform
+                                   group-hover:translate-x-1"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M13.5 4.5L21 12
+                                   m0 0l-7.5 7.5
+                                   M21 12H3"
+                            />
+
+                        </svg>
+
+                    </button>
+
+                </form>
+
+
+
+                {{-- Register --}}
+                <div
+                    class="mt-6
+                           text-center"
+                >
+
+                    <p
+                        class="text-sm
+                               text-charcoal/55"
+                    >
+
+                        নতুন ব্যবহারকারী?
+
+                        <a
+                            href="/register"
+                            class="ml-1
+                                   font-semibold
+                                   text-[#0F1B3D]
+                                   hover:text-[#FF5C5C]
+                                   transition"
+                        >
+                            অ্যাকাউন্ট তৈরি করুন
+                        </a>
+
+                    </p>
+
+                </div>
+
+
+
+                {{-- Security --}}
+                <div
+                    class="mt-6
+                           xl:mt-8
+                           flex
+                           items-center
+                           justify-center
+                           gap-2
+                           text-xs
+                           text-charcoal/35"
+                >
+
+                    <svg
+                        class="w-4 h-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="1.8"
+                            d="M12 15v2
+                               m6.364-9.364
+                               a9 9 0 11-12.728 0
+                               a9 9 0 0112.728 0z"
+                        />
+
+                    </svg>
+
+                    আপনার তথ্য নিরাপদ ও সুরক্ষিত
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+
+    <script>
+
+        /* ==========================================
+           PASSWORD SHOW / HIDE
+        =========================================== */
+
+        const passwordInput =
+            document.getElementById('password');
+
+        const togglePassword =
+            document.getElementById('togglePassword');
+
+
+        togglePassword.addEventListener(
+            'click',
+            function () {
+
+                if (passwordInput.type === 'password') {
+
+                    passwordInput.type = 'text';
+
+                } else {
+
+                    passwordInput.type = 'password';
+
+                }
+
+            }
+        );
+
+
+
+        /* ==========================================
+           LOGIN
+        =========================================== */
+
+        document
+            .getElementById('loginForm')
+            .addEventListener(
+                'submit',
+                async function (e) {
+
+                    e.preventDefault();
+
+
+                    const email =
+                        document
+                            .getElementById('email')
+                            .value
+                            .trim();
+
+
+                    const password =
+                        document
+                            .getElementById('password')
+                            .value;
+
+
+                    const errorMsg =
+                        document
+                            .getElementById('errorMsg');
+
+
+                    const loginButton =
+                        document
+                            .getElementById('loginButton');
+
+
+                    /* Reset Error */
+
+                    errorMsg.textContent = '';
+
+                    errorMsg.classList.add('hidden');
+
+
+                    /* Loading */
+
+                    loginButton.disabled = true;
+
+                    loginButton.classList.add(
+                        'opacity-80',
+                        'cursor-not-allowed'
+                    );
+
+
+                    loginButton.innerHTML = `
+                        <svg
+                            class="w-5 h-5 animate-spin"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                        >
+                            <circle
+                                class="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                stroke-width="4"
+                            >
+                            </circle>
+
+                            <path
+                                class="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8v8H4z"
+                            >
+                            </path>
+                        </svg>
+
+                        <span>লগইন হচ্ছে...</span>
+                    `;
+
+
+                    try {
+
+                        const response =
+                            await fetch(
+                                '/api/login',
+                                {
+
+                                    method: 'POST',
+
+                                    headers: {
+                                        'Content-Type':
+                                            'application/json',
+
+                                        'Accept':
+                                            'application/json',
+                                    },
+
+                                    body:
+                                        JSON.stringify({
+                                            email,
+                                            password
+                                        }),
+
+                                }
+                            );
+
+
+                        let data = {};
+
+
+                        try {
+
+                            data =
+                                await response.json();
+
+                        } catch (jsonError) {
+
+                            data = {};
+
+                        }
+
+
+                        if (!response.ok) {
+
+                            errorMsg.textContent =
+                                data.message
+                                ||
+                                'লগইন ব্যর্থ হয়েছে। আবার চেষ্টা করুন।';
+
+
+                            errorMsg.classList.remove(
+                                'hidden'
+                            );
+
+                            return;
+
+                        }
+
+
+                        if (data.token) {
+
+                            localStorage.setItem(
+                                'token',
+                                data.token
+                            );
+
+                        }
+
+
+                        window.location.href =
+                            '/dashboard';
+
+
+                    } catch (err) {
+
+                        errorMsg.textContent =
+                            'সার্ভারের সাথে সংযোগ করা যায়নি। আবার চেষ্টা করুন。';
+
+                        errorMsg.classList.remove(
+                            'hidden'
+                        );
+
+
+                    } finally {
+
+                        loginButton.disabled = false;
+
+
+                        loginButton.classList.remove(
+                            'opacity-80',
+                            'cursor-not-allowed'
+                        );
+
+
+                        loginButton.innerHTML = `
+                            <span>লগইন করুন</span>
+
+                            <svg
+                                class="w-4 h-4"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M13.5 4.5L21 12
+                                       m0 0l-7.5 7.5
+                                       M21 12H3"
+                                />
+                            </svg>
+                        `;
+
+                    }
+
+                }
+            );
+
+    </script>
+
+</body>
+</html>
