@@ -1,0 +1,49 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class DoseLog extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'schedule_id',
+        'medication_id',
+        'patient_id',
+        'scheduled_date',
+        'scheduled_time',
+        'status',
+        'taken_at',
+        'marked_by_type',
+        'marked_by_id',
+        'notes',
+    ];
+
+    protected $casts = [
+        'scheduled_date' => 'date',
+        'taken_at' => 'datetime',
+    ];
+
+    public function schedule()
+    {
+        return $this->belongsTo(Schedule::class);
+    }
+
+    public function medication()
+    {
+        return $this->belongsTo(Medication::class);
+    }
+
+    public function patient()
+    {
+        return $this->belongsTo(Patient::class);
+    }
+
+    public function markedBy()
+    {
+        return $this->belongsTo(User::class, 'marked_by_id');
+    }
+}

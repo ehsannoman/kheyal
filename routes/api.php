@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\MedicationController;
 use App\Http\Controllers\Api\PatientController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -17,4 +18,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
 
     Route::apiResource('patients', PatientController::class);
+
+    Route::get('/patients/{patientId}/medications', [MedicationController::class, 'index']);
+    Route::post('/patients/{patientId}/medications', [MedicationController::class, 'store']);
+    Route::apiResource('medications', MedicationController::class)->except(['index', 'store']);
 });

@@ -22,4 +22,19 @@ class Patient extends Model
     {
         return $this->belongsTo(User::class, 'caregiver_id');
     }
+
+    public function prescriptions()
+    {
+        return $this->hasMany(Prescription::class);
+    }
+
+    public function medications()
+    {
+        return $this->hasMany(Medication::class);
+    }
+
+    public function doseLogs()
+    {
+        return $this->hasMany(DoseLog::class);
+    }
 }
