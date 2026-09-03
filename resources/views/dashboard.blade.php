@@ -1456,7 +1456,7 @@
                 <div class="sidebar-section">
                     <div class="nav-section-content">
                         <div class="nav-section-content-inner">
-                            <a href="#" class="sidebar-item active">
+                            <a href="/dashboard" class="sidebar-item active">
                                 <svg viewBox="0 0 24 24" class="icon">
                                     <rect x="3" y="3" width="7" height="7" rx="2" />
                                     <rect x="14" y="3" width="7" height="7" rx="2" />
@@ -1466,7 +1466,7 @@
                                 <span>ড্যাশবোর্ড</span>
                             </a>
 
-                            <a href="#" class="sidebar-item">
+                            <a href="/patients" class="sidebar-item">
                                 <svg viewBox="0 0 24 24" class="icon">
                                     <circle cx="12" cy="7" r="4" />
                                     <path d="M5.5 21v-1a6.5 6.5 0 0 1 13 0v1" />
@@ -1677,16 +1677,20 @@
                 </button>
 
                 <div class="profile-area">
-                    <div class="profile-avatar">সা</div>
+                    <div class="profile-avatar" id="profileAvatar">?</div>
 
                     <div class="profile-details">
-                        <div class="profile-name">সায়েম আহমেদ</div>
+                        <div class="profile-name" id="profileName">...</div>
                         <div class="profile-role">কেয়ারগিভার</div>
                     </div>
 
-                    <svg viewBox="0 0 24 24" class="profile-arrow icon">
-                        <path d="M6 9l6 6 6-6" />
-                    </svg>
+                    <button type="button" id="logoutButton" class="profile-arrow icon" style="background:none;border:none;cursor:pointer;" title="লগআউট">
+                        <svg viewBox="0 0 24 24" class="icon">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                            <path d="M16 17l5-5-5-5" />
+                            <path d="M21 12H9" />
+                        </svg>
+                    </button>
                 </div>
             </div>
         </header>
@@ -1698,7 +1702,7 @@
                 <!-- WELCOME -->
                 <section class="welcome-section">
                     <div>
-                        <h2 class="welcome-title">স্বাগতম সায়েম আহমেদ 👋</h2>
+                        <h2 class="welcome-title" id="welcomeTitle">স্বাগতম... 👋</h2>
                         <p class="welcome-subtitle">আজ আপনার প্রিয়জনদের যত্নের সারাংশ</p>
                     </div>
 
@@ -1709,7 +1713,7 @@
                             <path d="M16 2v4" />
                             <path d="M3 10h18" />
                         </svg>
-                        <span>১৫ মে ২০২৬, বুধবার</span>
+                        <span id="currentDate">...</span>
                     </div>
                 </section>
 
@@ -1719,7 +1723,7 @@
                         <div class="stat-top">
                             <div>
                                 <div class="stat-label">মোট রোগী</div>
-                                <div class="stat-value">২</div>
+                                <div class="stat-value" id="statTotalPatients">০</div>
                                 <div class="stat-meta">সক্রিয়</div>
                             </div>
                             <div class="stat-icon icon-patient">
@@ -1737,7 +1741,7 @@
                         <div class="stat-top">
                             <div>
                                 <div class="stat-label">আজকের ওষুধ</div>
-                                <div class="stat-value">৮</div>
+                                <div class="stat-value" id="statTodayDoses">০</div>
                                 <div class="stat-meta">মোট ডোজ</div>
                             </div>
                             <div class="stat-icon icon-medicine">
@@ -1753,8 +1757,8 @@
                         <div class="stat-top">
                             <div>
                                 <div class="stat-label">সময়ে নেওয়া</div>
-                                <div class="stat-value">৬</div>
-                                <div class="stat-meta success-text">৭৫%</div>
+                                <div class="stat-value" id="statTakenDoses">০</div>
+                                <div class="stat-meta success-text" id="statTakenPercent">০%</div>
                             </div>
                             <div class="stat-icon icon-success">
                                 <svg viewBox="0 0 24 24" class="icon">
@@ -1768,8 +1772,8 @@
                         <div class="stat-top">
                             <div>
                                 <div class="stat-label">মিসড ডোজ</div>
-                                <div class="stat-value">২</div>
-                                <div class="stat-meta danger-text">২৫%</div>
+                                <div class="stat-value" id="statMissedDoses">০</div>
+                                <div class="stat-meta danger-text" id="statMissedPercent">০%</div>
                             </div>
                             <div class="stat-icon icon-warning">
                                 <svg viewBox="0 0 24 24" class="icon">
@@ -1784,8 +1788,8 @@
                         <div class="stat-top">
                             <div>
                                 <div class="stat-label">SOS সতর্কতা</div>
-                                <div class="stat-value">১</div>
-                                <div class="stat-meta">আজ</div>
+                                <div class="stat-value">–</div>
+                                <div class="stat-meta">শীঘ্রই আসছে</div>
                             </div>
                             <div class="stat-icon icon-sos">SOS</div>
                         </div>
@@ -1796,93 +1800,11 @@
                 <section>
                     <div class="section-header">
                         <h3 class="section-title">আমার রোগীদের অবস্থা</h3>
-                        <a href="#" class="section-link">সব দেখুন →</a>
+                        <a href="/patients" class="section-link">সব দেখুন →</a>
                     </div>
 
-                    <div class="patients-card">
-
-                        <!-- PATIENT 1 -->
-                        <div class="patient-row">
-                            <div class="patient-info">
-                                <div class="patient-avatar">আ</div>
-                                <div>
-                                    <div class="patient-name">আব্দুল করিম</div>
-                                    <div class="patient-relation">বাবা • ৭২ বছর</div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <div class="patient-label">আজকের অবস্থা</div>
-                                <span class="status-good">ভালো</span>
-                            </div>
-
-                            <div>
-                                <div class="patient-label">ওষুধ</div>
-                                <div class="medicine-count">৪/৫</div>
-                                <div class="patient-subtext">ডোজ সম্পন্ন</div>
-                            </div>
-
-                            <div>
-                                <div class="patient-label">চেক-ইন</div>
-                                <div class="checkin-good">
-                                    <span class="checkin-icon good">✓</span>
-                                    সকাল ৯:০০
-                                </div>
-                            </div>
-
-                            <div>
-                                <div class="patient-label">শেষ SOS</div>
-                                <div class="sos-empty">–</div>
-                            </div>
-
-                            <button class="patient-arrow">
-                                <svg viewBox="0 0 24 24" class="icon">
-                                    <path d="M9 18l6-6-6-6" />
-                                </svg>
-                            </button>
-                        </div>
-
-                        <!-- PATIENT 2 -->
-                        <div class="patient-row">
-                            <div class="patient-info">
-                                <div class="patient-avatar female">র</div>
-                                <div>
-                                    <div class="patient-name">রোকেয়া বেগম</div>
-                                    <div class="patient-relation">মা • ৬৭ বছর</div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <div class="patient-label">আজকের অবস্থা</div>
-                                <span class="status-medium">মাঝারি</span>
-                            </div>
-
-                            <div>
-                                <div class="patient-label">ওষুধ</div>
-                                <div class="medicine-count">২/৩</div>
-                                <div class="patient-subtext">ডোজ সম্পন্ন</div>
-                            </div>
-
-                            <div>
-                                <div class="patient-label">চেক-ইন</div>
-                                <div class="checkin-medium">
-                                    <span class="checkin-icon medium">!</span>
-                                    গতকাল
-                                </div>
-                            </div>
-
-                            <div>
-                                <div class="patient-label">শেষ SOS</div>
-                                <div class="sos-empty">–</div>
-                            </div>
-
-                            <button class="patient-arrow">
-                                <svg viewBox="0 0 24 24" class="icon">
-                                    <path d="M9 18l6-6-6-6" />
-                                </svg>
-                            </button>
-                        </div>
-
+                    <div class="patients-card" id="patientsListContainer">
+                        <div style="padding:24px;text-align:center;color:var(--muted);">লোড হচ্ছে...</div>
                     </div>
                 </section>
 
@@ -2135,6 +2057,175 @@
             closeSidebar();
         }
     });
+
+    /* ==========================================
+       AUTH GUARD + API WIRING
+    =========================================== */
+    const API_BASE = '/api';
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+        window.location.href = '/login';
+    }
+
+    async function apiFetch(path, options = {}) {
+        const response = await fetch(API_BASE + path, {
+            ...options,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+                ...(options.headers || {}),
+            },
+        });
+
+        if (response.status === 401) {
+            localStorage.removeItem('token');
+            window.location.href = '/login';
+            return null;
+        }
+
+        return response;
+    }
+
+    function firstBengaliInitial(name) {
+        return name && name.trim().length ? name.trim().charAt(0) : '?';
+    }
+
+    /* Current date, Bengali-ish fallback to locale string */
+    document.getElementById('currentDate').textContent =
+        new Date().toLocaleDateString('bn-BD', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' });
+
+    /* Load caregiver profile */
+    async function loadProfile() {
+        const res = await apiFetch('/me');
+        if (!res || !res.ok) return;
+        const user = await res.json();
+
+        document.getElementById('profileName').textContent = user.name || '';
+        document.getElementById('profileAvatar').textContent = firstBengaliInitial(user.name);
+        document.getElementById('welcomeTitle').textContent = `স্বাগতম ${user.name || ''} 👋`;
+    }
+
+    /* Build one patient row */
+    function buildPatientRow(patient, todayCount, takenCount) {
+        const row = document.createElement('div');
+        row.className = 'patient-row';
+
+        const genderClass = patient.gender === 'female' ? ' female' : '';
+        const relationAge = [patient.relation, patient.age ? `${patient.age} বছর` : null]
+            .filter(Boolean).join(' • ');
+
+        row.innerHTML = `
+            <div class="patient-info">
+                <div class="patient-avatar${genderClass}">${firstBengaliInitial(patient.name)}</div>
+                <div>
+                    <div class="patient-name">${patient.name}</div>
+                    <div class="patient-relation">${relationAge || '—'}</div>
+                </div>
+            </div>
+
+            <div>
+                <div class="patient-label">আজকের অবস্থা</div>
+                <span class="sos-empty">—</span>
+            </div>
+
+            <div>
+                <div class="patient-label">ওষুধ</div>
+                <div class="medicine-count">${takenCount}/${todayCount}</div>
+                <div class="patient-subtext">ডোজ সম্পন্ন</div>
+            </div>
+
+            <div>
+                <div class="patient-label">চেক-ইন</div>
+                <div class="sos-empty">শীঘ্রই আসছে</div>
+            </div>
+
+            <div>
+                <div class="patient-label">শেষ SOS</div>
+                <div class="sos-empty">–</div>
+            </div>
+
+            <button class="patient-arrow">
+                <svg viewBox="0 0 24 24" class="icon">
+                    <path d="M9 18l6-6-6-6" />
+                </svg>
+            </button>
+        `;
+
+        row.style.cursor = 'pointer';
+        row.addEventListener('click', () => {
+            window.location.href = '/patients/' + patient.id;
+        });
+
+        return row;
+    }
+
+    /* Load patients + today's dose stats, render list + top stat cards */
+    async function loadPatients() {
+        const container = document.getElementById('patientsListContainer');
+        const res = await apiFetch('/patients');
+        if (!res || !res.ok) {
+            container.innerHTML = '<div style="padding:24px;text-align:center;color:var(--danger);">রোগীর তালিকা লোড করা যায়নি।</div>';
+            return;
+        }
+
+        const patients = await res.json();
+        document.getElementById('statTotalPatients').textContent = patients.length;
+
+        if (patients.length === 0) {
+            container.innerHTML = '<div style="padding:32px;text-align:center;color:var(--muted);">এখনো কোনো রোগী যোগ করা হয়নি। উপরের "+ রোগী যোগ করুন" বাটনে চাপ দিন।</div>';
+            document.getElementById('statTodayDoses').textContent = '0';
+            document.getElementById('statTakenDoses').textContent = '0';
+            document.getElementById('statTakenPercent').textContent = '0%';
+            document.getElementById('statMissedDoses').textContent = '0';
+            document.getElementById('statMissedPercent').textContent = '0%';
+            return;
+        }
+
+        container.innerHTML = '';
+
+        let totalToday = 0;
+        let totalTaken = 0;
+        let totalMissed = 0;
+
+        for (const patient of patients) {
+            /* make sure today's doses exist, then fetch them */
+            await apiFetch(`/patients/${patient.id}/dose-logs/generate`, { method: 'POST' });
+            const doseRes = await apiFetch(`/patients/${patient.id}/dose-logs/today`);
+            const doses = doseRes && doseRes.ok ? await doseRes.json() : [];
+
+            const takenCount = doses.filter(d => d.status === 'taken').length;
+            const missedCount = doses.filter(d => d.status === 'missed').length;
+
+            totalToday += doses.length;
+            totalTaken += takenCount;
+            totalMissed += missedCount;
+
+            container.appendChild(buildPatientRow(patient, doses.length, takenCount));
+        }
+
+        document.getElementById('statTodayDoses').textContent = totalToday;
+        document.getElementById('statTakenDoses').textContent = totalTaken;
+        document.getElementById('statMissedDoses').textContent = totalMissed;
+        document.getElementById('statTakenPercent').textContent =
+            (totalToday > 0 ? Math.round((totalTaken / totalToday) * 100) : 0) + '%';
+        document.getElementById('statMissedPercent').textContent =
+            (totalToday > 0 ? Math.round((totalMissed / totalToday) * 100) : 0) + '%';
+    }
+
+    /* Logout */
+    document.getElementById('logoutButton')?.addEventListener('click', async () => {
+        await apiFetch('/logout', { method: 'POST' });
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+    });
+
+    /* Init */
+    if (token) {
+        loadProfile();
+        loadPatients();
+    }
 </script>
 
 </body>

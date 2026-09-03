@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\MedicationController;
 use App\Http\Controllers\Api\PatientController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\DoseLogController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -22,4 +23,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/patients/{patientId}/medications', [MedicationController::class, 'index']);
     Route::post('/patients/{patientId}/medications', [MedicationController::class, 'store']);
     Route::apiResource('medications', MedicationController::class)->except(['index', 'store']);
+
+    Route::post('/patients/{patientId}/dose-logs/generate', [DoseLogController::class, 'generate']);
+    Route::get('/patients/{patientId}/dose-logs/today', [DoseLogController::class, 'today']);
+    Route::get('/patients/{patientId}/adherence', [DoseLogController::class, 'adherence']);
+    Route::put('/dose-logs/{id}/mark', [DoseLogController::class, 'mark']);
 });

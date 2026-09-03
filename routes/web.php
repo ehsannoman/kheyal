@@ -13,3 +13,11 @@ Route::get('/login', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 });
+
+Route::get('/patients', function () {
+    return view('patients.index');
+});
+
+Route::get('/patients/{id}', function ($id) {
+    return view('patients.show', ['patientId' => (int) $id]);
+});
