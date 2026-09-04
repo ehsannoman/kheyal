@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\MedicationController;
 use App\Http\Controllers\Api\PatientController;
+use App\Http\Controllers\Api\AppointmentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DoseLogController;
@@ -28,4 +29,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/patients/{patientId}/dose-logs/today', [DoseLogController::class, 'today']);
     Route::get('/patients/{patientId}/adherence', [DoseLogController::class, 'adherence']);
     Route::put('/dose-logs/{id}/mark', [DoseLogController::class, 'mark']);
+
+    Route::get('/appointments', [AppointmentController::class, 'indexAll']);
+    Route::get('/patients/{patientId}/appointments', [AppointmentController::class, 'index']);
+    Route::get('/patients/{patientId}/appointments/upcoming', [AppointmentController::class, 'upcoming']);
+    Route::post('/patients/{patientId}/appointments', [AppointmentController::class, 'store']);
+    Route::apiResource('appointments', AppointmentController::class)->except(['index', 'store']);
 });

@@ -37,4 +37,9 @@ class Patient extends Model
     {
         return $this->hasMany(DoseLog::class);
     }
+
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
 }

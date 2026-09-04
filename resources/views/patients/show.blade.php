@@ -1547,7 +1547,7 @@
                                 <span>রিমাইন্ডার</span>
                             </a>
 
-                            <a href="#" class="sidebar-item">
+                            <a href="/appointments" class="sidebar-item">
                                 <svg viewBox="0 0 24 24" class="icon">
                                     <rect x="3" y="4" width="18" height="17" rx="3" />
                                     <path d="M8 2v4" />

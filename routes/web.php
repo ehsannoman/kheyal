@@ -21,3 +21,7 @@ Route::get('/patients', function () {
 Route::get('/patients/{id}', function ($id) {
     return view('patients.show', ['patientId' => (int) $id]);
 });
+
+Route::get('/appointments', function () {
+    return view('appointments.index');
+});
