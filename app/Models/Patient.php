@@ -42,4 +42,14 @@ class Patient extends Model
     {
         return $this->hasMany(Appointment::class);
     }
+
+    public function sosAlerts()
+    {
+        return $this->hasMany(SosAlert::class);
+    }
+
+    public function checkins()
+    {
+        return $this->hasMany(Checkin::class);
+    }
 }

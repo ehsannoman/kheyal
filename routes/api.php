@@ -4,6 +4,9 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\MedicationController;
 use App\Http\Controllers\Api\PatientController;
 use App\Http\Controllers\Api\AppointmentController;
+use App\Http\Controllers\Api\SosAlertController;
+use App\Http\Controllers\Api\CheckinController;
+use App\Http\Controllers\Api\PushSubscriptionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DoseLogController;
@@ -35,4 +38,18 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/patients/{patientId}/appointments/upcoming', [AppointmentController::class, 'upcoming']);
     Route::post('/patients/{patientId}/appointments', [AppointmentController::class, 'store']);
     Route::apiResource('appointments', AppointmentController::class)->except(['index', 'store']);
+
+    Route::get('/sos-alerts', [SosAlertController::class, 'indexAll']);
+    Route::get('/patients/{patientId}/sos-alerts', [SosAlertController::class, 'index']);
+    Route::post('/patients/{patientId}/sos', [SosAlertController::class, 'store']);
+    Route::put('/sos-alerts/{id}/resolve', [SosAlertController::class, 'resolve']);
+
+    Route::get('/checkins/latest', [CheckinController::class, 'latestAll']);
+    Route::get('/patients/{patientId}/checkins', [CheckinController::class, 'index']);
+    Route::get('/patients/{patientId}/checkins/latest', [CheckinController::class, 'latest']);
+    Route::post('/patients/{patientId}/checkins', [CheckinController::class, 'store']);
+
+    Route::get('/push/vapid-public-key', [PushSubscriptionController::class, 'vapidPublicKey']);
+    Route::post('/push/subscribe', [PushSubscriptionController::class, 'subscribe']);
+    Route::post('/push/unsubscribe', [PushSubscriptionController::class, 'unsubscribe']);
 });

@@ -20,11 +20,13 @@ class DoseLog extends Model
         'marked_by_type',
         'marked_by_id',
         'notes',
+        'reminded_at',
     ];
 
     protected $casts = [
         'scheduled_date' => 'date',
         'taken_at' => 'datetime',
+        'reminded_at' => 'datetime',
     ];
 
     public function schedule()
