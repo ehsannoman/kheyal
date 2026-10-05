@@ -61,6 +61,11 @@
                 <input type="text" id="patientRelation" placeholder="যেমন: বাবা, মা" style="width:100%;height:44px;padding:0 12px;border:1px solid var(--line);border-radius:10px;outline:none;">
             </div>
 
+            <div style="margin-bottom:16px;">
+                <label style="display:block;font-size:0.85rem;font-weight:600;color:var(--ink);margin-bottom:6px;">আপনার ফোন নম্বর (Quick-dial-এর জন্য)</label>
+                <input type="text" id="patientCaregiverPhone" placeholder="যেমন: 01712345678" style="width:100%;height:44px;padding:0 12px;border:1px solid var(--line);border-radius:10px;outline:none;">
+            </div>
+
             <div id="addPatientError" style="display:none;background:#fff0f0;border:1px solid #f6c9c9;color:var(--danger);border-radius:10px;padding:10px 12px;font-size:0.85rem;margin-bottom:12px;"></div>
 
             <div style="display:flex;gap:10px;">
@@ -160,6 +165,7 @@
             age: document.getElementById('patientAge').value || null,
             gender: document.getElementById('patientGender').value || null,
             relation: document.getElementById('patientRelation').value.trim() || null,
+            caregiver_phone: document.getElementById('patientCaregiverPhone').value.trim() || null,
         };
 
         try {

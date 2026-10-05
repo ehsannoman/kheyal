@@ -14,6 +14,31 @@
                 </section>
 
 
+                <!-- PATIENT DEVICE SETUP -->
+                <section>
+                    <div style="background:var(--surface-strong);border:1px solid var(--line);border-radius:14px;padding:20px;">
+                        <div style="font-weight:700;color:var(--ink);font-size:0.95rem;margin-bottom:4px;">রোগীর মোবাইল অ্যাপ সেটআপ</div>
+                        <p style="color:var(--muted);font-size:0.85rem;margin-bottom:14px;">এই লিংক বা QR কোড রোগীর ফোনে একবার খুলে "Add to Home Screen" করলেই তার নিজের অ্যাপ তৈরি হয়ে যাবে — আলাদা লগইনের দরকার নেই।</p>
+
+                        <div id="deviceSetupContent">
+                            <button type="button" id="generateLinkBtn" style="height:44px;padding:0 18px;border-radius:10px;border:none;background:var(--coral);color:#fff;font-weight:600;cursor:pointer;">লিংক তৈরি করুন</button>
+
+                            <div id="deviceLinkResult" style="display:none;margin-top:14px;">
+                                <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+                                    <input type="text" id="deviceLinkUrl" readonly style="flex:1;min-width:220px;height:42px;padding:0 12px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);font-size:0.82rem;">
+                                    <button type="button" id="copyLinkBtn" style="height:42px;padding:0 16px;border-radius:8px;border:1px solid var(--line);background:#fff;color:var(--ink);font-weight:600;cursor:pointer;">কপি করুন</button>
+                                </div>
+                                <div id="qrcodeContainer" style="display:inline-block;padding:12px;background:#fff;border:1px solid var(--line);border-radius:10px;"></div>
+                                <div style="margin-top:12px;">
+                                    <button type="button" id="resetLinkBtn" style="background:none;border:none;color:var(--danger);font-size:0.8rem;cursor:pointer;font-weight:600;">পুরোনো লিংক বাতিল করে নতুন লিংক তৈরি করুন</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
                 <!-- MEDICATIONS -->
                 <section>
                     <div class="section-header">
@@ -351,11 +376,66 @@
         }
     }
 
+    /* ==========================================
+       PATIENT DEVICE SETUP (link + QR)
+    =========================================== */
+    function renderQrCode(url) {
+        const container = document.getElementById('qrcodeContainer');
+        container.innerHTML = '';
+        new QRCode(container, {
+            text: url,
+            width: 180,
+            height: 180,
+        });
+    }
+
+    async function loadExistingAccessLink() {
+        // Patient detail already includes access_token via /patients/{id}; if present, show it directly
+        const res = await apiFetch('/patients/' + patientId);
+        if (!res || !res.ok) return;
+        const patient = await res.json();
+        if (patient.access_token) {
+            showDeviceLink(url_for_token(patient.access_token));
+        }
+    }
+
+    function url_for_token(token) {
+        return window.location.origin + '/patient/' + token + '/home';
+    }
+
+    function showDeviceLink(url) {
+        document.getElementById('generateLinkBtn').style.display = 'none';
+        document.getElementById('deviceLinkResult').style.display = 'block';
+        document.getElementById('deviceLinkUrl').value = url;
+        renderQrCode(url);
+    }
+
+    document.getElementById('generateLinkBtn').addEventListener('click', async () => {
+        const res = await apiFetch(`/patients/${patientId}/access-link`, { method: 'POST' });
+        if (!res || !res.ok) return;
+        const data = await res.json();
+        showDeviceLink(data.url);
+    });
+
+    document.getElementById('copyLinkBtn').addEventListener('click', () => {
+        const input = document.getElementById('deviceLinkUrl');
+        input.select();
+        navigator.clipboard?.writeText(input.value);
+    });
+
+    document.getElementById('resetLinkBtn').addEventListener('click', async () => {
+        if (!confirm('পুরোনো লিংক আর কাজ করবে না — রোগীর ফোনে আবার নতুন লিংক দিয়ে সেটআপ করতে হবে। এগোতে চান?')) return;
+        const res = await apiFetch(`/patients/${patientId}/access-link/reset`, { method: 'POST' });
+        if (!res || !res.ok) return;
+        const data = await res.json();
+        showDeviceLink(data.url);
+    });
 
     /* Init */
     if (token) {
         loadPatientHeader();
         loadMedications();
+        loadExistingAccessLink();
     }
 
 @endpush

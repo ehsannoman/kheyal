@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+use NotificationChannels\WebPush\HasPushSubscriptions;
+use Illuminate\Notifications\Notifiable;
+
 
 class Patient extends Model
 {
-    use HasFactory;
+     use HasFactory, Notifiable, HasPushSubscriptions;
 
     protected $fillable = [
         'caregiver_id',
@@ -15,12 +19,26 @@ class Patient extends Model
         'age',
         'gender',
         'relation',
+        'caregiver_phone',
         'photo',
+        'access_token',
     ];
 
     public function caregiver()
     {
         return $this->belongsTo(User::class, 'caregiver_id');
+    }
+
+    // Patient-er PWA link-er jonno ekta unique, na-guess-jogyo token toiri kore
+    // (already thakle notun kore banay na, ekbari toiri hoy)
+    public function ensureAccessToken(): string
+    {
+        if (!$this->access_token) {
+            $this->access_token = Str::random(48);
+            $this->save();
+        }
+
+        return $this->access_token;
     }
 
     public function prescriptions()

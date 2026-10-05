@@ -10,7 +10,7 @@
     <meta name="theme-color" content="#0f1b3d">
 
     @vite('resources/css/app.css')
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Noto+Serif+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1449,6 +1449,7 @@
                 gap: 6px;
             }
         }
+        
     </style>
     @stack('styles')
 </head>
@@ -1507,29 +1508,36 @@
 
                     <div class="nav-section-content">
                         <div class="nav-section-content-inner">
-                            <a href="#" class="sidebar-item">
-                                <svg viewBox="0 0 24 24" class="icon">
-                                    <path d="M3 7V5a2 2 0 0 1 2-2h2" />
-                                    <path d="M17 3h2a2 2 0 0 1 2 2v2" />
-                                    <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
-                                    <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
-                                    <path d="M7 12h10" />
-                                    <path d="M12 7v10" />
-                                </svg>
-                                <span>প্রেসক্রিপশন স্ক্যান</span>
-                            </a>
+                            <a href="/prescriptions/scan"
+                                class="sidebar-item {{ request()->is('prescriptions/scan') ? 'active' : '' }}">
+                                    <svg viewBox="0 0 24 24" class="icon">
+                                        <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+                                        <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+                                        <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+                                        <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+                                        <path d="M7 12h10" />
+                                        <path d="M12 7v10" />
+                                    </svg>
 
-                            <a href="#" class="sidebar-item">
-                                <svg viewBox="0 0 24 24" class="icon">
-                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                                    <path d="M14 2v6h6" />
-                                    <path d="M8 13h8" />
-                                    <path d="M8 17h6" />
-                                </svg>
-                                <span>প্রেসক্রিপশনসমূহ</span>
-                            </a>
+                                    <span>প্রেসক্রিপশন স্ক্যান</span>
+                                </a>
 
-                            <a href="#" class="sidebar-item">
+                            <a href="/prescriptions"
+                                class="sidebar-item {{ request()->is('prescriptions') ? 'active' : '' }}">
+
+                                    <svg viewBox="0 0 24 24" class="icon">
+                                        <path d="M6 2h9l4 4v16H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" />
+                                        <path d="M14 2v5h5" />
+                                        <path d="M8 11h8" />
+                                        <path d="M8 15h8" />
+                                        <path d="M8 19h5" />
+                                    </svg>
+
+                                    <span>প্রেসক্রিপশনসমূহ</span>
+                                </a>
+
+                            <a href="/health-history" 
+                                class="sidebar-item {{ request()->is('health-history') ? 'active' : '' }}">
                                 <svg viewBox="0 0 24 24" class="icon">
                                     <path d="M12 8v4l3 2" />
                                     <circle cx="12" cy="12" r="9" />

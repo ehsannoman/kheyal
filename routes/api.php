@@ -7,9 +7,11 @@ use App\Http\Controllers\Api\AppointmentController;
 use App\Http\Controllers\Api\SosAlertController;
 use App\Http\Controllers\Api\CheckinController;
 use App\Http\Controllers\Api\PushSubscriptionController;
+use App\Http\Controllers\Api\PatientPortalController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DoseLogController;
+use App\Http\Controllers\Api\PatientPushSubscriptionController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -18,11 +20,27 @@ Route::get('/user', function (Request $request) {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+// Patient PWA - login lage na, gopon token diye identify hoy (caregiver ekbar QR/link diye setup kore dey)
+Route::prefix('patient/{token}')->group(function () {
+    Route::get('/me', [PatientPortalController::class, 'me']);
+    Route::get('/dose-logs/today', [PatientPortalController::class, 'todayDoses']);
+    Route::put('/dose-logs/{id}/mark', [PatientPortalController::class, 'markDose']);
+    Route::get('/checkins/latest', [PatientPortalController::class, 'latestCheckin']);
+    Route::post('/checkins', [PatientPortalController::class, 'storeCheckin']);
+    Route::post('/sos', [PatientPortalController::class, 'triggerSos']);
+    Route::get('/appointments/upcoming', [PatientPortalController::class, 'upcomingAppointments']);
+    Route::get('/push/vapid-public-key', [PatientPushSubscriptionController::class, 'vapidPublicKey']);
+    Route::post('/push/subscribe', [PatientPushSubscriptionController::class, 'subscribe']);
+    Route::post('/push/unsubscribe', [PatientPushSubscriptionController::class, 'unsubscribe']);
+});
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
 
     Route::apiResource('patients', PatientController::class);
+    Route::post('/patients/{id}/access-link', [PatientController::class, 'generateAccessLink']);
+    Route::post('/patients/{id}/access-link/reset', [PatientController::class, 'resetAccessLink']);
 
     Route::get('/patients/{patientId}/medications', [MedicationController::class, 'index']);
     Route::post('/patients/{patientId}/medications', [MedicationController::class, 'store']);
