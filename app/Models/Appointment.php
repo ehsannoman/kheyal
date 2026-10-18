@@ -16,12 +16,21 @@ class Appointment extends Model
         'location',
         'appointment_date',
         'notes',
-        'reminded',
+        'reminder_24_at',
+        'reminder_3_at',
+        'reminder_1_at',
+        'reminder_exact_at',
+        'reminders_stopped_at',
     ];
 
     protected $casts = [
         'appointment_date' => 'datetime',
-        'reminded' => 'boolean',
+
+        'reminder_24_at' => 'datetime',
+        'reminder_3_at' => 'datetime',
+        'reminder_1_at' => 'datetime',
+        'reminder_exact_at' => 'datetime',
+        'reminders_stopped_at' => 'datetime',
     ];
 
     public function patient()

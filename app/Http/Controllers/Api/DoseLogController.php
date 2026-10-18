@@ -21,7 +21,7 @@ class DoseLogController extends Controller
             return response()->json(['message' => 'Patient not found'], 404);
         }
 
-        $today = Carbon::today();
+        $today = Carbon::now('Asia/Dhaka')->startOfDay();
         $generatedCount = 0;
 
         $medications = $patient->medications()->where('is_active', true)->with('schedules')->get();
@@ -66,7 +66,7 @@ class DoseLogController extends Controller
         }
 
         $doseLogs = DoseLog::where('patient_id', $patient->id)
-            ->where('scheduled_date', Carbon::today()->toDateString())
+            ->where('scheduled_date', Carbon::now('Asia/Dhaka')->toDateString())
             ->with('medication')
             ->orderBy('scheduled_time')
             ->get();

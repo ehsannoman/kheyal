@@ -10,10 +10,37 @@ use Illuminate\Support\Facades\Validator;
 
 class AppointmentController extends Controller
 {
-    // GET /api/appointments - caregiver-er shob patient-er shob appointment eksathe dekhায় (upcoming first)
+    /*
+    |--------------------------------------------------------------------------
+    | Timezone helper
+    |--------------------------------------------------------------------------
+    |
+    | Caregiver form থেকে appointment_date আসে Bangladesh local time হিসেবে।
+    | যেমন:
+    |
+    | 2026-10-08T20:00
+    |
+    | এটাকে Asia/Dhaka ধরে parse করে UTC-তে convert করে database-এ save করব।
+    |
+    */
+
+    private function parseAppointmentDate(string $value): Carbon
+    {
+        return Carbon::createFromFormat(
+            'Y-m-d\TH:i',
+            $value,
+            'Asia/Dhaka'
+        )->utc();
+    }
+
+
+    // GET /api/appointments
+    // caregiver-er shob patient-er shob appointment
     public function indexAll(Request $request)
     {
-        $patientIds = $request->user()->patients()->pluck('id');
+        $patientIds = $request->user()
+            ->patients()
+            ->pluck('id');
 
         $appointments = Appointment::whereIn('patient_id', $patientIds)
             ->with('patient')
@@ -23,13 +50,19 @@ class AppointmentController extends Controller
         return response()->json($appointments);
     }
 
-    // GET /api/patients/{patientId}/appointments - patient-er shob appointment dekhায় (upcoming first)
+
+    // GET /api/patients/{patientId}/appointments
+    // patient-er shob appointment
     public function index(Request $request, $patientId)
     {
-        $patient = $request->user()->patients()->find($patientId);
+        $patient = $request->user()
+            ->patients()
+            ->find($patientId);
 
         if (!$patient) {
-            return response()->json(['message' => 'Patient not found'], 404);
+            return response()->json([
+                'message' => 'Patient not found'
+            ], 404);
         }
 
         $appointments = $patient->appointments()
@@ -39,30 +72,46 @@ class AppointmentController extends Controller
         return response()->json($appointments);
     }
 
-    // GET /api/patients/{patientId}/appointments/upcoming - shudhu future appointment dekhায়
+
+    // GET /api/patients/{patientId}/appointments/upcoming
+    // shudhu future appointment
     public function upcoming(Request $request, $patientId)
     {
-        $patient = $request->user()->patients()->find($patientId);
+        $patient = $request->user()
+            ->patients()
+            ->find($patientId);
 
         if (!$patient) {
-            return response()->json(['message' => 'Patient not found'], 404);
+            return response()->json([
+                'message' => 'Patient not found'
+            ], 404);
         }
 
         $appointments = $patient->appointments()
-            ->where('appointment_date', '>=', Carbon::now())
+            ->where(
+                'appointment_date',
+                '>=',
+                Carbon::now('UTC')
+            )
             ->orderBy('appointment_date')
             ->get();
 
         return response()->json($appointments);
     }
 
-    // POST /api/patients/{patientId}/appointments - notun appointment add kore (manually or prescription theke)
+
+    // POST /api/patients/{patientId}/appointments
+    // notun appointment add kore
     public function store(Request $request, $patientId)
     {
-        $patient = $request->user()->patients()->find($patientId);
+        $patient = $request->user()
+            ->patients()
+            ->find($patientId);
 
         if (!$patient) {
-            return response()->json(['message' => 'Patient not found'], 404);
+            return response()->json([
+                'message' => 'Patient not found'
+            ], 404);
         }
 
         $validator = Validator::make($request->all(), [
@@ -74,18 +123,66 @@ class AppointmentController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
         }
 
         $data = $validator->validated();
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | IMPORTANT
+        |--------------------------------------------------------------------------
+        |
+        | Form থেকে:
+        |
+        | 2026-10-08T20:00
+        |
+        | এটাকে Asia/Dhaka ধরে UTC-তে convert করছি।
+        |
+        | Dhaka 20:00
+        |       ↓
+        | UTC 14:00
+        |
+        | Database-এ UTC 14:00 থাকবে।
+        |
+        */
+
+        try {
+
+            $appointmentDate = $this->parseAppointmentDate(
+                $data['appointment_date']
+            );
+
+        } catch (\Throwable $e) {
+
+            return response()->json([
+                'message' => 'Invalid appointment date/time.'
+            ], 422);
+        }
+
+
         $appointment = $patient->appointments()->create([
-            'prescription_id' => $data['prescription_id'] ?? null,
-            'doctor_name' => $data['doctor_name'] ?? null,
-            'location' => $data['location'] ?? null,
-            'appointment_date' => $data['appointment_date'],
-            'notes' => $data['notes'] ?? null,
+
+            'prescription_id' =>
+                $data['prescription_id'] ?? null,
+
+            'doctor_name' =>
+                $data['doctor_name'] ?? null,
+
+            'location' =>
+                $data['location'] ?? null,
+
+            'appointment_date' =>
+                $appointmentDate,
+
+            'notes' =>
+                $data['notes'] ?? null,
+
         ]);
+
 
         return response()->json([
             'message' => 'Appointment added successfully',
@@ -93,26 +190,45 @@ class AppointmentController extends Controller
         ], 201);
     }
 
-    // GET /api/appointments/{id} - ekta specific appointment-er detail
+
+    // GET /api/appointments/{id}
+    // specific appointment-er detail
     public function show(Request $request, $id)
     {
-        $appointment = Appointment::with('patient')->find($id);
+        $appointment = Appointment::with('patient')
+            ->find($id);
 
-        if (!$appointment || $appointment->patient->caregiver_id !== $request->user()->id) {
-            return response()->json(['message' => 'Appointment not found'], 404);
+        if (
+            !$appointment ||
+            $appointment->patient->caregiver_id !==
+            $request->user()->id
+        ) {
+            return response()->json([
+                'message' => 'Appointment not found'
+            ], 404);
         }
 
         return response()->json($appointment);
     }
 
-    // PUT /api/appointments/{id} - appointment update kore
+
+    // PUT /api/appointments/{id}
+    // appointment update kore
     public function update(Request $request, $id)
     {
-        $appointment = Appointment::with('patient')->find($id);
+        $appointment = Appointment::with('patient')
+            ->find($id);
 
-        if (!$appointment || $appointment->patient->caregiver_id !== $request->user()->id) {
-            return response()->json(['message' => 'Appointment not found'], 404);
+        if (
+            !$appointment ||
+            $appointment->patient->caregiver_id !==
+            $request->user()->id
+        ) {
+            return response()->json([
+                'message' => 'Appointment not found'
+            ], 404);
         }
+
 
         $validator = Validator::make($request->all(), [
             'doctor_name' => 'nullable|string|max:255',
@@ -121,11 +237,44 @@ class AppointmentController extends Controller
             'notes' => 'nullable|string',
         ]);
 
+
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
         }
 
-        $appointment->update($validator->validated());
+
+        $data = $validator->validated();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Appointment date update
+        |--------------------------------------------------------------------------
+        */
+
+        if (isset($data['appointment_date'])) {
+
+            try {
+
+                $data['appointment_date'] =
+                    $this->parseAppointmentDate(
+                        $data['appointment_date']
+                    );
+
+            } catch (\Throwable $e) {
+
+                return response()->json([
+                    'message' => 'Invalid appointment date/time.'
+                ], 422);
+            }
+        }
+
+
+        $appointment->update($data);
+
 
         return response()->json([
             'message' => 'Appointment updated successfully',
@@ -133,17 +282,30 @@ class AppointmentController extends Controller
         ]);
     }
 
-    // DELETE /api/appointments/{id} - appointment delete kore
+
+    // DELETE /api/appointments/{id}
+    // appointment delete kore
     public function destroy(Request $request, $id)
     {
-        $appointment = Appointment::with('patient')->find($id);
+        $appointment = Appointment::with('patient')
+            ->find($id);
 
-        if (!$appointment || $appointment->patient->caregiver_id !== $request->user()->id) {
-            return response()->json(['message' => 'Appointment not found'], 404);
+        if (
+            !$appointment ||
+            $appointment->patient->caregiver_id !==
+            $request->user()->id
+        ) {
+            return response()->json([
+                'message' => 'Appointment not found'
+            ], 404);
         }
+
 
         $appointment->delete();
 
-        return response()->json(['message' => 'Appointment deleted successfully']);
+
+        return response()->json([
+            'message' => 'Appointment deleted successfully'
+        ]);
     }
 }

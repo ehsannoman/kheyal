@@ -13,19 +13,39 @@ class CheckinController extends Controller
     // GET /api/checkins/latest - caregiver-er shob patient-er sobcheye recent check-in eksathe dekhায়
     public function latestAll(Request $request)
     {
-        $patients = $request->user()->patients()->with(['checkins' => function ($query) {
-            $query->orderByDesc('checked_in_at')->limit(1);
-        }])->get();
+        $todayStart = Carbon::now('Asia/Dhaka')
+            ->startOfDay()
+            ->utc();
 
-        $result = $patients->map(function ($patient) {
-            return [
-                'patient_id' => $patient->id,
-                'patient_name' => $patient->name,
-                'latest_checkin' => $patient->checkins->first(),
-            ];
-        });
+        $tomorrowStart = Carbon::now('Asia/Dhaka')
+            ->startOfDay()
+            ->addDay()
+            ->utc();
 
-        return response()->json($result);
+        $patients = $request->user()
+            ->patients()
+            ->with([
+                'checkins' => function ($query) use (
+                    $todayStart,
+                    $tomorrowStart
+                ) {
+                    $query->where('checked_in_at', '>=', $todayStart)
+                        ->where('checked_in_at', '<', $tomorrowStart)
+                        ->orderByDesc('checked_in_at')
+                        ->limit(1);
+                }
+            ])
+            ->get();
+
+        return response()->json(
+            $patients->map(function ($patient) {
+                return [
+                    'patient_id' => $patient->id,
+                    'patient_name' => $patient->name,
+                    'latest_checkin' => $patient->checkins->first(),
+                ];
+            })
+        );
     }
 
     // GET /api/patients/{patientId}/checkins - ekta patient-er shob check-in history dekhায়

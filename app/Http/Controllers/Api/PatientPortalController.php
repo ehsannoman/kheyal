@@ -5,26 +5,31 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Checkin;
 use App\Models\DoseLog;
+use App\Models\Patient;
+use App\Models\Appointment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\SosAlertNotification;
+use App\Notifications\CheckinNotification;
 
 class PatientPortalController extends Controller
 {
-    // Shob method-e token diye patient khuje ber kora hoy - login lage na,
-    // token-i identity. Vul/purono token dile 404 dey.
+    // Token diye patient identify kora hoy.
     protected function resolvePatient(string $token)
     {
-        return \App\Models\Patient::where('access_token', $token)->first();
+        return Patient::where('access_token', $token)->first();
     }
 
-    // GET /api/patient/{token}/me - patient-er nijer nam-poricoy dekhায়
+    // GET /api/patient/{token}/me
     public function me($token)
     {
         $patient = $this->resolvePatient($token);
 
         if (!$patient) {
-            return response()->json(['message' => 'Invalid link'], 404);
+            return response()->json([
+                'message' => 'Invalid link'
+            ], 404);
         }
 
         return response()->json([
@@ -34,21 +39,28 @@ class PatientPortalController extends Controller
         ]);
     }
 
-    // GET /api/patient/{token}/dose-logs/today - ajker oshudher list dekhায় (age generate kore neয়)
+    // GET /api/patient/{token}/dose-logs/today
     public function todayDoses($token)
     {
         $patient = $this->resolvePatient($token);
 
         if (!$patient) {
-            return response()->json(['message' => 'Invalid link'], 404);
+            return response()->json([
+                'message' => 'Invalid link'
+            ], 404);
         }
 
         $today = Carbon::today();
 
-        $medications = $patient->medications()->where('is_active', true)->with('schedules')->get();
+        $medications = $patient->medications()
+            ->where('is_active', true)
+            ->with('schedules')
+            ->get();
 
         foreach ($medications as $medication) {
+
             foreach ($medication->schedules as $schedule) {
+
                 if (!$schedule->is_active) {
                     continue;
                 }
@@ -79,19 +91,24 @@ class PatientPortalController extends Controller
         return response()->json($doseLogs);
     }
 
-    // PUT /api/patient/{token}/dose-logs/{id}/mark - patient nije "niyechi/nei ni" bole mark kore
+    // PUT /api/patient/{token}/dose-logs/{id}/mark
     public function markDose(Request $request, $token, $id)
     {
         $patient = $this->resolvePatient($token);
 
         if (!$patient) {
-            return response()->json(['message' => 'Invalid link'], 404);
+            return response()->json([
+                'message' => 'Invalid link'
+            ], 404);
         }
 
-        $doseLog = DoseLog::where('patient_id', $patient->id)->find($id);
+        $doseLog = DoseLog::where('patient_id', $patient->id)
+            ->find($id);
 
         if (!$doseLog) {
-            return response()->json(['message' => 'Dose log not found'], 404);
+            return response()->json([
+                'message' => 'Dose log not found'
+            ], 404);
         }
 
         $validator = Validator::make($request->all(), [
@@ -99,50 +116,89 @@ class PatientPortalController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
         }
 
-        $doseLog->update([
-            'status' => $request->status,
-            'taken_at' => $request->status === 'taken' ? now() : null,
-            'marked_by_type' => 'patient',
-            'marked_by_id' => $patient->id,
-        ]);
+        /*
+        |--------------------------------------------------------------------------
+        | Prevent changing an already completed dose
+        |--------------------------------------------------------------------------
+        */
+
+        if (in_array($doseLog->status, ['taken', 'missed', 'skipped'])) {
+            return response()->json([
+                'message' => 'This dose has already been completed.',
+                'dose_log' => $doseLog,
+            ], 422);
+        }
+
+        $doseLog->status = $request->status;
+        $doseLog->taken_at = $request->status === 'taken'
+            ? now()
+            : null;
+
+        $doseLog->marked_by_type = 'patient';
+        $doseLog->marked_by_id = $patient->id;
+
+        $doseLog->save();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Decrease medicine quantity only when taken
+        |--------------------------------------------------------------------------
+        */
 
         if ($request->status === 'taken') {
+
             $medication = $doseLog->medication;
-            if ($medication->remaining_quantity !== null && $medication->remaining_quantity > 0) {
+
+            if (
+                $medication &&
+                $medication->remaining_quantity !== null &&
+                $medication->remaining_quantity > 0
+            ) {
                 $medication->decrement('remaining_quantity');
             }
         }
 
         return response()->json([
             'message' => 'Dose marked successfully',
-            'dose_log' => $doseLog,
+            'dose_log' => $doseLog->fresh('medication'),
         ]);
     }
 
-    // GET /api/patient/{token}/checkins/latest - ajker check-in dewa hoyeche kina dekhায়
+    // GET /api/patient/{token}/checkins/latest
     public function latestCheckin($token)
     {
         $patient = $this->resolvePatient($token);
 
         if (!$patient) {
-            return response()->json(['message' => 'Invalid link'], 404);
+            return response()->json([
+                'message' => 'Invalid link'
+            ], 404);
         }
 
-        $checkin = $patient->checkins()->orderByDesc('checked_in_at')->first();
+        $today = Carbon::today();
+
+        $checkin = $patient->checkins()
+            ->whereDate('checked_in_at', $today)
+            ->orderByDesc('checked_in_at')
+            ->first();
 
         return response()->json($checkin);
     }
 
-    // POST /api/patient/{token}/checkins - patient nije dainik wellness status dey
+    // POST /api/patient/{token}/checkins
     public function storeCheckin(Request $request, $token)
     {
         $patient = $this->resolvePatient($token);
 
         if (!$patient) {
-            return response()->json(['message' => 'Invalid link'], 404);
+            return response()->json([
+                'message' => 'Invalid link'
+            ], 404);
         }
 
         $validator = Validator::make($request->all(), [
@@ -150,7 +206,26 @@ class PatientPortalController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | One daily check-in
+        |--------------------------------------------------------------------------
+        */
+
+        $todayCheckin = $patient->checkins()
+            ->whereDate('checked_in_at', Carbon::today())
+            ->first();
+
+        if ($todayCheckin) {
+            return response()->json([
+                'message' => 'Today check-in has already been submitted.',
+                'checkin' => $todayCheckin,
+            ], 422);
         }
 
         $checkin = $patient->checkins()->create([
@@ -158,19 +233,58 @@ class PatientPortalController extends Controller
             'checked_in_at' => Carbon::now(),
         ]);
 
+        /*
+        |--------------------------------------------------------------------------
+        | Notify caregiver
+        |--------------------------------------------------------------------------
+        */
+
+        $caregiver = $patient->caregiver;
+
+        if ($caregiver) {
+            $caregiver->notify(
+                new CheckinNotification($checkin, $patient)
+            );
+        }
+
         return response()->json([
             'message' => 'Check-in recorded',
             'checkin' => $checkin,
         ], 201);
     }
 
-    // POST /api/patient/{token}/sos - patient SOS button chaple shob caregiver-ke alert jay
+    // POST /api/patient/{token}/sos
     public function triggerSos($token)
     {
         $patient = $this->resolvePatient($token);
 
         if (!$patient) {
-            return response()->json(['message' => 'Invalid link'], 404);
+            return response()->json([
+                'message' => 'Invalid link'
+            ], 404);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Prevent accidental duplicate SOS
+        |--------------------------------------------------------------------------
+        */
+
+        $recentAlert = $patient->sosAlerts()
+            ->where('resolved', false)
+            ->where(
+                'triggered_at',
+                '>=',
+                Carbon::now()->subMinutes(2)
+            )
+            ->latest('triggered_at')
+            ->first();
+
+        if ($recentAlert) {
+            return response()->json([
+                'message' => 'An SOS alert is already active.',
+                'sos_alert' => $recentAlert,
+            ], 200);
         }
 
         $alert = $patient->sosAlerts()->create([
@@ -178,7 +292,19 @@ class PatientPortalController extends Controller
             'resolved' => false,
         ]);
 
-        // TODO: caregiver-ke immediate push notification pathano (future work)
+        /*
+        |--------------------------------------------------------------------------
+        | Immediate caregiver push notification
+        |--------------------------------------------------------------------------
+        */
+
+        $caregiver = $patient->caregiver;
+
+        if ($caregiver) {
+            $caregiver->notify(
+                new SosAlertNotification($alert, $patient)
+            );
+        }
 
         return response()->json([
             'message' => 'SOS alert triggered',
@@ -186,21 +312,55 @@ class PatientPortalController extends Controller
         ], 201);
     }
 
-    // GET /api/patient/{token}/appointments/upcoming - পরবর্তী অ্যাপয়েন্টমেন্ট দেখায়
+    // GET /api/patient/{token}/appointments/upcoming
     public function upcomingAppointments($token)
     {
         $patient = $this->resolvePatient($token);
 
         if (!$patient) {
-            return response()->json(['message' => 'Invalid link'], 404);
+            return response()->json([
+                'message' => 'Invalid link'
+            ], 404);
         }
 
         $appointments = $patient->appointments()
             ->where('appointment_date', '>=', Carbon::now())
+            ->whereNull('reminders_stopped_at')
             ->orderBy('appointment_date')
             ->limit(3)
             ->get();
 
         return response()->json($appointments);
+    }
+
+    // POST /api/patient/{token}/appointments/{id}/acknowledge
+    public function acknowledgeAppointment($token, $id)
+    {
+        $patient = $this->resolvePatient($token);
+
+        if (!$patient) {
+            return response()->json([
+                'message' => 'Invalid link'
+            ], 404);
+        }
+
+        $appointment = $patient->appointments()
+            ->where('id', $id)
+            ->first();
+
+        if (!$appointment) {
+            return response()->json([
+                'message' => 'Appointment not found'
+            ], 404);
+        }
+
+        $appointment->reminders_stopped_at = now();
+        $appointment->reminded = true;
+        $appointment->save();
+
+        return response()->json([
+            'message' => 'Appointment reminder stopped',
+            'appointment' => $appointment,
+        ]);
     }
 }

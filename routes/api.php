@@ -32,6 +32,7 @@ Route::prefix('patient/{token}')->group(function () {
     Route::get('/push/vapid-public-key', [PatientPushSubscriptionController::class, 'vapidPublicKey']);
     Route::post('/push/subscribe', [PatientPushSubscriptionController::class, 'subscribe']);
     Route::post('/push/unsubscribe', [PatientPushSubscriptionController::class, 'unsubscribe']);
+    Route::post('/appointments/{id}/acknowledge',[PatientPortalController::class, 'acknowledgeAppointment']);
 });
 
 Route::middleware('auth:sanctum')->group(function () {

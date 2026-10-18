@@ -165,36 +165,16 @@
         .brand {
             display: flex;
             align-items: center;
-            gap: 9px;
+        }
+        .brand-logo {
+            width: 165px;
+            height: auto;
+
+            display: block;
+
+            object-fit: contain;
         }
 
-        .brand-mark {
-            width: 36px;
-            height: 36px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            background: rgba(255, 255, 255, 0.10);
-
-            border: 1px solid rgba(255, 255, 255, 0.12);
-
-            border-radius: 10px;
-
-            color: var(--coral);
-
-            font-size: 16px;
-        }
-
-        .brand-name {
-            font-family: 'Noto Serif Bengali', serif;
-
-            font-size: 22px;
-            font-weight: 700;
-
-            line-height: 1;
-        }
 
         .notification-button {
             width: 40px;
@@ -217,6 +197,40 @@
 
         .notification-button:active {
             background: rgba(255, 255, 255, 0.14);
+        }
+
+        .brand-mark {
+            overflow: hidden;
+        }
+
+        .brand-mark img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            min-width: 17px;
+            height: 17px;
+            padding: 0 4px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: var(--coral);
+            border: 2px solid var(--navy);
+            border-radius: 999px;
+            color: #fff;
+            font-size: 9px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .notification-wrap {
+            position: relative;
         }
 
 
@@ -1013,6 +1027,227 @@
         }
 
 
+        .medicine-hero-main {
+            min-width: 0;
+        }
+
+        .medicine-hero-sub {
+            margin-top: 5px;
+            color: rgba(255, 255, 255, 0.68);
+            font-size: 14px;
+        }
+
+        .medicine-hero-actions {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .medicine-hero-actions:empty {
+            display: none;
+        }
+
+        .medicine-hero-action {
+            flex: 1;
+            min-height: 44px;
+            border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .medicine-hero-action.taken {
+            background: var(--coral);
+            color: #fff;
+            border-color: var(--coral);
+        }
+
+        .medicine-hero-action.missed {
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+        }
+
+        .medicine-hero-button.secondary {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .medicine-hero.overdue {
+            background: #3a1830;
+        }
+
+        .medicine-hero.done {
+            background: var(--navy);
+        }
+
+        .medicine-hero-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 7px;
+            padding: 4px 8px;
+            border-radius: 7px;
+            background: rgba(255,255,255,0.09);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .appointment-ack {
+            width: 100%;
+            min-height: 44px;
+            margin-top: 11px;
+            border: 0;
+            border-radius: 9px;
+            background: var(--green);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .appointment-ack:disabled {
+            opacity: 0.55;
+        }
+
+        .appointment-stopped {
+            margin-top: 10px;
+            color: var(--green);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .contact-card {
+            min-height: 78px;
+            cursor: pointer;
+        }
+
+        .contact-card:active {
+            transform: translateY(1px);
+        }
+
+        .notification-panel {
+            position: fixed;
+            inset: 0;
+            z-index: 1200;
+            display: none;
+            background: rgba(15,27,61,0.42);
+            padding: max(12px, env(safe-area-inset-top)) 12px 12px;
+        }
+
+        .notification-panel.open {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .notification-sheet {
+            width: min(100%, 520px);
+            max-height: min(82vh, 680px);
+            margin-top: 48px;
+            overflow: hidden;
+            background: var(--surface);
+            border-radius: 18px;
+            box-shadow: 0 18px 50px rgba(15,27,61,0.25);
+        }
+
+        .notification-sheet-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .notification-sheet-title {
+            margin: 0;
+            color: var(--navy);
+            font-family: 'Noto Serif Bengali', serif;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .notification-close {
+            width: 38px;
+            height: 38px;
+            border: 0;
+            border-radius: 10px;
+            background: var(--bg);
+            color: var(--navy);
+        }
+
+        .notification-list {
+            max-height: calc(min(82vh, 680px) - 74px);
+            overflow-y: auto;
+            padding: 8px 14px 14px;
+        }
+
+        .notification-item {
+            display: flex;
+            gap: 11px;
+            padding: 13px 4px;
+            border-bottom: 1px solid var(--border-soft);
+        }
+
+        .notification-item:last-child {
+            border-bottom: 0;
+        }
+
+        .notification-item-icon {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: var(--coral-soft);
+            color: var(--coral);
+        }
+
+        .notification-item-content {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .notification-item-title {
+            color: var(--navy);
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .notification-item-body {
+            margin-top: 2px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        .notification-item-time {
+            margin-top: 3px;
+            color: var(--text-muted);
+            font-size: 11px;
+        }
+
+        .notification-empty {
+            padding: 42px 16px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .notification-clear {
+            margin-top: 10px;
+            padding: 8px 0;
+            background: transparent;
+            border: 0;
+            color: var(--coral-dark);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
         /* =========================================================
            EMPTY / LOADING
            ========================================================= */
@@ -1225,24 +1460,29 @@
             <div class="header-top">
 
                 <div class="brand">
+                    <div class="brand">
 
-                    <div class="brand-mark">
-                        <i class="fa-solid fa-heart-pulse"></i>
-                    </div>
+                        <img
+                            src="{{ asset('images/logo.png') }}"
+                            alt="খেয়াল"
+                            class="brand-logo"
+                        >
 
-                    <div class="brand-name">
-                        খেয়াল
                     </div>
 
                 </div>
 
-                <button
-                    type="button"
-                    class="notification-button"
-                    aria-label="নোটিফিকেশন"
-                >
-                    <i class="fa-solid fa-bell"></i>
-                </button>
+                <div class="notification-wrap">
+                    <button
+                        type="button"
+                        class="notification-button"
+                        id="notificationButton"
+                        aria-label="নোটিফিকেশন"
+                    >
+                        <i class="fa-solid fa-bell"></i>
+                    </button>
+                    <span class="notification-badge" id="notificationBadge">0</span>
+                </div>
 
             </div>
 
@@ -1307,38 +1547,27 @@
                 </div>
 
 
-                <div class="medicine-hero">
+                <div class="medicine-hero" id="medicineHero">
 
                     <div class="medicine-hero-top">
-
-                        <div>
-
-                            <div class="medicine-hero-label">
-                                আজকের ওষুধ
-                            </div>
-
-                            <div
-                                class="medicine-hero-count"
-                                id="medicineHeroCount"
-                            >
-                                লোড হচ্ছে...
-                            </div>
-
+                        <div class="medicine-hero-main" id="medicineHeroContent">
+                            <div class="medicine-hero-label">আজকের ওষুধ</div>
+                            <div class="medicine-hero-count" id="medicineHeroCount">লোড হচ্ছে...</div>
+                            <div class="medicine-hero-sub" id="medicineHeroSub">সময় যাচাই করা হচ্ছে...</div>
                         </div>
 
-
-                        <div class="medicine-hero-icon">
+                        <div class="medicine-hero-icon" id="medicineHeroIcon">
                             <i class="fa-solid fa-pills"></i>
                         </div>
-
                     </div>
 
+                    <div class="medicine-hero-actions" id="medicineHeroActions"></div>
 
                     <a
                         href="#medicines"
-                        class="medicine-hero-button"
+                        class="medicine-hero-button secondary"
                     >
-                        ওষুধ দেখুন
+                        আজকের সব ওষুধ
                         <i class="fa-solid fa-arrow-down"></i>
                     </a>
 
@@ -1676,6 +1905,25 @@
 
 
     <!-- =====================================================
+         NOTIFICATION PANEL
+         ===================================================== -->
+
+    <div class="notification-panel" id="notificationPanel" aria-hidden="true">
+        <div class="notification-sheet">
+            <div class="notification-sheet-header">
+                <h2 class="notification-sheet-title">নোটিফিকেশন</h2>
+                <button type="button" class="notification-close" id="notificationClose" aria-label="বন্ধ করুন">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="notification-list" id="notificationList">
+                <div class="notification-empty">এখনো কোনো নোটিফিকেশন নেই</div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- =====================================================
          BOTTOM NAV
          ===================================================== -->
 
@@ -1731,6 +1979,133 @@
     const TOKEN = @json($token);
 
     const API_BASE = '/api/patient/' + TOKEN;
+
+
+    /* =========================================================
+       LOCAL NOTIFICATION CENTER
+       ========================================================= */
+
+    const NOTIFICATION_KEY = 'kheyal_patient_notifications_' + TOKEN;
+
+    function getLocalNotifications() {
+        try {
+            const value = JSON.parse(localStorage.getItem(NOTIFICATION_KEY) || '[]');
+            return Array.isArray(value) ? value : [];
+        } catch (error) {
+            return [];
+        }
+    }
+
+
+    function saveLocalNotification(notification) {
+        try {
+            const list = getLocalNotifications();
+            list.unshift({
+                id: Date.now() + Math.random(),
+                type: notification.type || 'general',
+                title: notification.title || 'খেয়াল',
+                body: notification.body || '',
+                created_at: new Date().toISOString()
+            });
+
+            localStorage.setItem(
+                NOTIFICATION_KEY,
+                JSON.stringify(list.slice(0, 50))
+            );
+
+            updateNotificationBadge();
+        } catch (error) {
+            console.warn('Notification history could not be saved.', error);
+        }
+    }
+
+
+    function notificationIcon(type) {
+        if (type === 'medicine') return 'fa-pills';
+        if (type === 'appointment') return 'fa-user-doctor';
+        if (type === 'sos') return 'fa-triangle-exclamation';
+        if (type === 'checkin') return 'fa-heart-pulse';
+        return 'fa-bell';
+    }
+
+
+    function renderNotificationCenter() {
+        const listEl = document.getElementById('notificationList');
+        if (!listEl) return;
+
+        const list = getLocalNotifications();
+
+        if (!list.length) {
+            listEl.innerHTML = `
+                <div class="notification-empty">
+                    <i class="fa-regular fa-bell-slash" style="font-size:28px; margin-bottom:10px;"></i>
+                    <div>এখনো কোনো নোটিফিকেশন নেই</div>
+                </div>`;
+            return;
+        }
+
+        listEl.innerHTML = list.map(item => {
+            const when = formatDateTime(item.created_at);
+            return `
+                <div class="notification-item">
+                    <div class="notification-item-icon">
+                        <i class="fa-solid ${notificationIcon(item.type)}"></i>
+                    </div>
+                    <div class="notification-item-content">
+                        <div class="notification-item-title">${esc(item.title)}</div>
+                        <div class="notification-item-body">${esc(item.body)}</div>
+                        <div class="notification-item-time">${esc(when)}</div>
+                    </div>
+                </div>`;
+        }).join('') + `
+            <div style="text-align:center;">
+                <button type="button" class="notification-clear" id="clearNotifications">সব নোটিফিকেশন মুছে দিন</button>
+            </div>`;
+
+        document.getElementById('clearNotifications')?.addEventListener('click', () => {
+            localStorage.removeItem(NOTIFICATION_KEY);
+            renderNotificationCenter();
+            updateNotificationBadge();
+        });
+    }
+
+
+    function updateNotificationBadge() {
+        const badge = document.getElementById('notificationBadge');
+        if (!badge) return;
+        const count = getLocalNotifications().length;
+        badge.textContent = count > 99 ? '99+' : String(count);
+        badge.style.display = count ? 'flex' : 'none';
+    }
+
+
+    function setupNotificationCenter() {
+        const button = document.getElementById('notificationButton');
+        const panel = document.getElementById('notificationPanel');
+        const close = document.getElementById('notificationClose');
+
+        if (!button || !panel || !close) return;
+
+        button.addEventListener('click', () => {
+            renderNotificationCenter();
+            panel.classList.add('open');
+            panel.setAttribute('aria-hidden', 'false');
+        });
+
+        close.addEventListener('click', () => {
+            panel.classList.remove('open');
+            panel.setAttribute('aria-hidden', 'true');
+        });
+
+        panel.addEventListener('click', event => {
+            if (event.target === panel) {
+                panel.classList.remove('open');
+                panel.setAttribute('aria-hidden', 'true');
+            }
+        });
+
+        updateNotificationBadge();
+    }
 
 
     /* =========================================================
@@ -1799,20 +2174,21 @@
 
         if (!time) return '';
 
-        const parts = time.split(':');
-
+        const parts = String(time).split(':');
         const hour = Number(parts[0]);
-        const minute = parts[1];
+        const minute = String(parts[1] ?? '00').padStart(2, '0');
 
-        const period = hour >= 12 ? 'PM' : 'AM';
+        if (!Number.isFinite(hour)) return '';
 
         let displayHour = hour % 12;
+        if (displayHour === 0) displayHour = 12;
 
-        if (displayHour === 0) {
-            displayHour = 12;
-        }
+        let period = 'সকাল';
+        if (hour >= 12 && hour < 16) period = 'দুপুর';
+        else if (hour >= 16 && hour < 19) period = 'বিকেল';
+        else if (hour >= 19 || hour < 5) period = 'রাত';
 
-        return `${displayHour}:${minute} ${period}`;
+        return `${period} ${displayHour}:${minute}`;
     }
 
 
@@ -1820,18 +2196,72 @@
 
         if (!value) return '';
 
-        const date = new Date(
-            String(value).replace(' ', 'T')
-        );
+        const raw = String(value);
+        const date = raw.includes('T')
+            ? new Date(raw)
+            : new Date(raw.replace(' ', 'T'));
 
         if (Number.isNaN(date.getTime())) {
-            return value;
+            return raw;
         }
 
         return date.toLocaleString('bn-BD', {
-            dateStyle: 'medium',
-            timeStyle: 'short'
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true
         });
+    }
+
+
+    function getDoseDateTime(dose) {
+
+        if (!dose || !dose.scheduled_time) return null;
+
+        const dateRaw = String(dose.scheduled_date || '');
+        const dateMatch = dateRaw.match(/^(\d{4}-\d{2}-\d{2})/);
+        const datePart = dateMatch ? dateMatch[1] : null;
+
+        if (!datePart) return null;
+
+        const timeParts = String(dose.scheduled_time).split(':');
+        const hour = Number(timeParts[0]);
+        const minute = Number(timeParts[1] || 0);
+        const second = Number(timeParts[2] || 0);
+
+        if (![hour, minute, second].every(Number.isFinite)) return null;
+
+        const [year, month, day] = datePart.split('-').map(Number);
+        const date = new Date(year, month - 1, day, hour, minute, second);
+
+        return Number.isNaN(date.getTime()) ? null : date;
+    }
+
+
+    function getCountdownText(target) {
+
+        if (!(target instanceof Date) || Number.isNaN(target.getTime())) {
+            return '';
+        }
+
+        const diff = target.getTime() - Date.now();
+
+        if (diff <= 0) return 'সময় পার হয়ে গেছে';
+
+        const totalMinutes = Math.ceil(diff / 60000);
+
+        if (totalMinutes < 60) {
+            return `${totalMinutes} মিনিট পর`;
+        }
+
+        const hours = Math.floor(totalMinutes / 60);
+        const minutes = totalMinutes % 60;
+
+        return minutes
+            ? `${hours} ঘণ্টা ${minutes} মিনিট পর`
+            : `${hours} ঘণ্টা পর`;
     }
 
 
@@ -1882,38 +2312,29 @@
 
         if (patient.caregiver_phone) {
 
-            container.innerHTML = `
-                <div class="contact-card">
+            const phone = String(patient.caregiver_phone).trim();
+            const telPhone = phone.replace(/[^0-9+]/g, '');
 
+            container.innerHTML = `
+                <a
+                    href="tel:${esc(telPhone)}"
+                    class="contact-card"
+                    aria-label="Caregiver-কে কল করুন"
+                >
                     <div class="contact-icon">
                         <i class="fa-solid fa-user-shield"></i>
                     </div>
 
                     <div class="contact-info">
-
-                        <div class="contact-label">
-                            আপনার caregiver
-                        </div>
-
-                        <div class="contact-name">
-                            পরিবারের সাথে যোগাযোগ
-                        </div>
-
-                        <div class="contact-number">
-                            ${esc(patient.caregiver_phone)}
-                        </div>
-
+                        <div class="contact-label">আপনার caregiver</div>
+                        <div class="contact-name">পরিবারের সাথে যোগাযোগ</div>
+                        <div class="contact-number">${esc(phone)}</div>
                     </div>
 
-                    <a
-                        href="tel:${esc(patient.caregiver_phone)}"
-                        class="call-button"
-                        aria-label="Caregiver-কে কল করুন"
-                    >
+                    <div class="call-button">
                         <i class="fa-solid fa-phone"></i>
-                    </a>
-
-                </div>
+                    </div>
+                </a>
             `;
 
         } else {
@@ -1957,160 +2378,79 @@
     function buildMedItem(dose) {
 
         const wrap = document.createElement('div');
-
         wrap.className = 'med-item';
 
+        const medication = dose.medication || {};
+        const medName = medication.name || 'ওষুধ';
+        const dosage = medication.dosage || '';
+        const scheduled = getDoseDateTime(dose);
+        const now = new Date();
 
-        const medication =
-            dose.medication || {};
+        let displayStatus = dose.status || 'pending';
+        let statusLabel = statusLabels[displayStatus] || displayStatus;
+        let statusIcon = 'fa-clock';
 
-        const medName =
-            medication.name || 'ওষুধ';
-
-
-        const dosage =
-            medication.dosage || '';
-
-
-        const time =
-            dose.scheduled_time
-                ? formatTime(dose.scheduled_time)
-                : '';
-
-
-        let statusClass =
-            dose.status || 'pending';
-
-
-        let statusIcon =
-            'fa-clock';
-
-
-        if (dose.status === 'taken') {
-
+        if (dose.status === 'pending' && scheduled && scheduled.getTime() < now.getTime()) {
+            displayStatus = 'missed';
+            statusLabel = 'সময় পার হয়েছে';
+            statusIcon = 'fa-circle-exclamation';
+        } else if (dose.status === 'taken') {
             statusIcon = 'fa-circle-check';
-
         } else if (dose.status === 'missed') {
-
             statusIcon = 'fa-circle-xmark';
-
         }
 
+        const time = dose.scheduled_time ? formatTime(dose.scheduled_time) : '';
 
         wrap.innerHTML = `
-
             <div class="med-main">
-
                 <div class="med-icon">
                     <i class="fa-solid fa-pills"></i>
                 </div>
 
                 <div class="med-info">
-
-                    <div class="med-name">
-                        ${esc(medName)}
-                    </div>
-
+                    <div class="med-name">${esc(medName)}</div>
                     <div class="med-time">
-
                         ${esc(time)}
-
-                        ${dosage
-                            ? ` • ${esc(dosage)}`
-                            : ''
-                        }
-
+                        ${dosage ? ` • ${esc(dosage)}` : ''}
                     </div>
-
                 </div>
 
-                ${
-                    dose.status !== 'pending'
-                    ? `
-                        <div class="med-status ${statusClass}">
-
-                            <i class="fa-solid ${statusIcon}"></i>
-
-                            ${esc(
-                                statusLabels[dose.status]
-                                || dose.status
-                            )}
-
-                        </div>
-                    `
-                    : ''
-                }
-
+                <div class="med-status ${displayStatus}">
+                    <i class="fa-solid ${statusIcon}"></i>
+                    ${esc(statusLabel)}
+                </div>
             </div>
         `;
 
-
-        /*
-         * Pending dose actions
-         */
-
+        // Only backend-pending doses can be changed.
         if (dose.status === 'pending') {
-
-            const actions =
-                document.createElement('div');
-
-            actions.className =
-                'med-actions';
-
-
+            const actions = document.createElement('div');
+            actions.className = 'med-actions';
             actions.innerHTML = `
-
-                <button
-                    type="button"
-                    class="med-action btn-taken"
-                >
+                <button type="button" class="med-action btn-taken">
                     <i class="fa-solid fa-check"></i>
-                    নিয়েছি
+                    নিয়েছি
                 </button>
-
-                <button
-                    type="button"
-                    class="med-action btn-missed"
-                >
+                <button type="button" class="med-action btn-missed">
                     <i class="fa-solid fa-xmark"></i>
                     নেইনি
                 </button>
-
             `;
 
+            const takenButton = actions.querySelector('.btn-taken');
+            const missedButton = actions.querySelector('.btn-missed');
 
-            const takenButton =
-                actions.querySelector('.btn-taken');
-
-            const missedButton =
-                actions.querySelector('.btn-missed');
-
-
-            takenButton.addEventListener(
-                'click',
-                () => markDose(
-                    dose.id,
-                    'taken',
-                    takenButton,
-                    missedButton
-                )
+            takenButton.addEventListener('click', () =>
+                markDose(dose.id, 'taken', takenButton, missedButton)
             );
 
-
-            missedButton.addEventListener(
-                'click',
-                () => markDose(
-                    dose.id,
-                    'missed',
-                    takenButton,
-                    missedButton
-                )
+            missedButton.addEventListener('click', () =>
+                markDose(dose.id, 'missed', takenButton, missedButton)
             );
-
 
             wrap.appendChild(actions);
         }
-
 
         return wrap;
     }
@@ -2161,111 +2501,176 @@
     }
 
 
+    function renderMedicineHero(doses) {
+
+        const hero = document.getElementById('medicineHero');
+        const count = document.getElementById('medicineHeroCount');
+        const sub = document.getElementById('medicineHeroSub');
+        const icon = document.getElementById('medicineHeroIcon');
+        const actions = document.getElementById('medicineHeroActions');
+
+        hero.classList.remove('overdue', 'done');
+        actions.innerHTML = '';
+
+        const pending = doses
+            .filter(d => d.status === 'pending')
+            .map(d => ({ dose: d, time: getDoseDateTime(d) }))
+            .filter(x => x.time);
+
+        const now = Date.now();
+        const overdue = pending
+            .filter(x => x.time.getTime() <= now)
+            .sort((a, b) => a.time - b.time);
+
+        const upcoming = pending
+            .filter(x => x.time.getTime() > now)
+            .sort((a, b) => a.time - b.time);
+
+        const target = overdue.length ? overdue[overdue.length - 1] : upcoming[0];
+
+        if (!target) {
+            hero.classList.add('done');
+            count.textContent = 'আজকের ওষুধের কাজ শেষ';
+            sub.textContent = 'আর কোনো বাকি ওষুধ নেই';
+            icon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+            return;
+        }
+
+        const dose = target.dose;
+        const medication = dose.medication || {};
+        const name = medication.name || 'ওষুধ';
+        const dosage = medication.dosage || '';
+        const time = formatTime(dose.scheduled_time);
+
+        if (target.time.getTime() <= now) {
+            hero.classList.add('overdue');
+            count.textContent = name;
+            sub.innerHTML = `${esc(time)}${dosage ? ` • ${esc(dosage)}` : ''}<br><span class="medicine-hero-status"><i class="fa-solid fa-triangle-exclamation"></i> সময় পার হয়ে গেছে</span>`;
+            icon.innerHTML = '<i class="fa-solid fa-clock"></i>';
+        } else {
+            count.textContent = name;
+            sub.innerHTML = `${esc(time)}${dosage ? ` • ${esc(dosage)}` : ''}<br>${esc(getCountdownText(target.time))}`;
+            icon.innerHTML = '<i class="fa-solid fa-clock"></i>';
+        }
+
+        const takenButton = document.createElement('button');
+        takenButton.type = 'button';
+        takenButton.className = 'medicine-hero-action taken';
+        takenButton.innerHTML = '<i class="fa-solid fa-check"></i> নিয়েছি';
+
+        const missedButton = document.createElement('button');
+        missedButton.type = 'button';
+        missedButton.className = 'medicine-hero-action missed';
+        missedButton.innerHTML = '<i class="fa-solid fa-xmark"></i> নেইনি';
+
+        takenButton.addEventListener('click', () =>
+            markHeroDose(dose.id, 'taken', takenButton, missedButton)
+        );
+        missedButton.addEventListener('click', () =>
+            markHeroDose(dose.id, 'missed', missedButton, takenButton)
+        );
+
+        actions.appendChild(takenButton);
+        actions.appendChild(missedButton);
+    }
+
+
+    async function markHeroDose(doseId, status, primaryButton, secondaryButton) {
+        primaryButton.disabled = true;
+        secondaryButton.disabled = true;
+
+        const res = await api(`/dose-logs/${doseId}/mark`, {
+            method: 'PUT',
+            body: JSON.stringify({ status })
+        });
+
+        if (res && res.ok) {
+            saveLocalNotification({
+                type: 'medicine',
+                title: status === 'taken' ? 'ওষুধ নেওয়া হয়েছে' : 'ওষুধের ডোজ মিস হয়েছে',
+                body: 'আজকের ওষুধের তথ্য আপডেট হয়েছে।'
+            });
+            showToast(status === 'taken' ? 'ওষুধ নেওয়া হয়েছে' : 'ওষুধ মিস হয়েছে হিসেবে রেকর্ড করা হয়েছে');
+            await loadMeds();
+        } else {
+            primaryButton.disabled = false;
+            secondaryButton.disabled = false;
+            showToast('ওষুধের তথ্য সংরক্ষণ করা যায়নি');
+        }
+    }
+
+
+    function pendingCountNeedsHeroOverride(doses) {
+        return doses.some(dose => {
+            if (dose.status !== 'pending') return false;
+            const time = getDoseDateTime(dose);
+            return time && time.getTime() <= Date.now();
+        });
+    }
+
+
     async function loadMeds() {
 
-        const card =
-            document.getElementById('medsCard');
+        const card = document.getElementById('medsCard');
+        const heroCount = document.getElementById('medicineHeroCount');
+        const summary = document.getElementById('medicineSummary');
 
-
-        const heroCount =
-            document.getElementById('medicineHeroCount');
-
-
-        const summary =
-            document.getElementById('medicineSummary');
-
-
-        const res =
-            await api('/dose-logs/today');
-
+        const res = await api('/dose-logs/today');
 
         if (!res || !res.ok) {
-
             card.innerHTML = `
                 <div class="empty-state">
-
-                    <div class="empty-icon">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                    </div>
-
-                    <div class="empty-text">
-                        আজকের ওষুধ লোড করা যায়নি
-                    </div>
-
-                </div>
-            `;
-
-            heroCount.textContent =
-                'তথ্য পাওয়া যায়নি';
-
+                    <div class="empty-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <div class="empty-text">আজকের ওষুধ লোড করা যায়নি</div>
+                </div>`;
+            heroCount.textContent = 'তথ্য পাওয়া যায়নি';
             summary.textContent = '';
-
             return;
         }
 
+        const doses = await res.json();
+        const total = doses.length;
+        const taken = doses.filter(d => d.status === 'taken').length;
+        const missed = doses.filter(d => d.status === 'missed').length;
+        const pending = doses.filter(d => d.status === 'pending').length;
 
-        const doses =
-            await res.json();
+        const effectivePending = doses.filter(d => {
+            if (d.status !== 'pending') return false;
+            const t = getDoseDateTime(d);
+            return !t || t.getTime() > Date.now();
+        }).length;
 
+        renderMedicineHero(doses);
 
-        const total =
-            doses.length;
-
-
-        const taken =
-            doses.filter(
-                dose => dose.status === 'taken'
-            ).length;
-
-
-        const pending =
-            doses.filter(
-                dose => dose.status === 'pending'
-            ).length;
-
-
-        heroCount.textContent =
-            total === 0
-                ? 'আজ কোনো ওষুধ নেই'
-                : `${pending} টি ডোজ বাকি`;
-
-
-        summary.textContent =
-            total === 0
-                ? ''
-                : `${taken}/${total} নেওয়া হয়েছে`;
-
+        summary.textContent = total
+            ? `${taken}/${total} নেওয়া হয়েছে${missed ? ` • ${missed} মিস` : ''}`
+            : '';
 
         if (total === 0) {
-
             card.innerHTML = `
                 <div class="empty-state">
-
-                    <div class="empty-icon">
-                        <i class="fa-solid fa-pills"></i>
-                    </div>
-
-                    <div class="empty-text">
-                        আজ কোনো ওষুধের সময়সূচী নেই
-                    </div>
-
-                </div>
-            `;
-
+                    <div class="empty-icon"><i class="fa-solid fa-pills"></i></div>
+                    <div class="empty-text">আজ কোনো ওষুধের সময়সূচী নেই</div>
+                </div>`;
             return;
         }
 
+        // Do not show a past pending dose as a future dose.
+        // It remains actionable so the patient can mark it taken/missed.
+        const sorted = [...doses].sort((a, b) => {
+            const ta = getDoseDateTime(a)?.getTime() ?? Number.MAX_SAFE_INTEGER;
+            const tb = getDoseDateTime(b)?.getTime() ?? Number.MAX_SAFE_INTEGER;
+            return ta - tb;
+        });
+
+        if (!pendingCountNeedsHeroOverride(doses)) {
+            heroCount.textContent = effectivePending
+                ? `${effectivePending} টি ডোজ বাকি`
+                : (missed || taken ? 'আজকের ডোজগুলো দেখা হয়েছে' : 'আজ কোনো ওষুধ নেই');
+        }
 
         card.innerHTML = '';
-
-
-        doses.forEach(dose => {
-
-            card.appendChild(
-                buildMedItem(dose)
-            );
-
-        });
+        sorted.forEach(dose => card.appendChild(buildMedItem(dose)));
     }
 
 
@@ -2473,6 +2878,18 @@
 
         if (res && res.ok) {
 
+            const labels = {
+                fine: 'ভালো আছি',
+                not_well: 'একটু অসুস্থ',
+                need_help: 'সাহায্য দরকার'
+            };
+
+            saveLocalNotification({
+                type: 'checkin',
+                title: 'দৈনিক চেক-ইন',
+                body: `আজকের অবস্থা: ${labels[status] || status}`
+            });
+
             showToast(
                 'আজকের চেক-ইন জানানো হয়েছে'
             );
@@ -2496,149 +2913,92 @@
        APPOINTMENTS
        ========================================================= */
 
+    async function acknowledgeAppointment(appointmentId, button) {
+
+        button.disabled = true;
+
+        const res = await api(`/appointments/${appointmentId}/acknowledge`, {
+            method: 'POST'
+        });
+
+        if (res && res.ok) {
+            saveLocalNotification({
+                type: 'appointment',
+                title: 'অ্যাপয়েন্টমেন্ট নিশ্চিত',
+                body: 'এই অ্যাপয়েন্টমেন্টের পরবর্তী reminder বন্ধ করা হয়েছে।'
+            });
+            showToast('অ্যাপয়েন্টমেন্ট নিশ্চিত করা হয়েছে');
+            await loadAppointments();
+        } else {
+            button.disabled = false;
+            showToast('অ্যাপয়েন্টমেন্ট আপডেট করা যায়নি');
+        }
+    }
+
+
     async function loadAppointments() {
 
-        const card =
-            document.getElementById(
-                'appointmentCard'
-            );
-
-
-        const res =
-            await api('/appointments/upcoming');
-
+        const card = document.getElementById('appointmentCard');
+        const res = await api('/appointments/upcoming');
 
         if (!res || !res.ok) {
-
             card.innerHTML = `
                 <div class="empty-state">
-
-                    <div class="empty-icon">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                    </div>
-
-                    <div class="empty-text">
-                        অ্যাপয়েন্টমেন্ট লোড করা যায়নি
-                    </div>
-
-                </div>
-            `;
-
+                    <div class="empty-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <div class="empty-text">অ্যাপয়েন্টমেন্ট লোড করা যায়নি</div>
+                </div>`;
             return;
         }
 
-
-        const appointments =
-            await res.json();
-
+        const appointments = await res.json();
 
         if (!appointments.length) {
-
             card.innerHTML = `
                 <div class="empty-state">
-
-                    <div class="empty-icon">
-                        <i class="fa-solid fa-calendar-check"></i>
-                    </div>
-
-                    <div class="empty-text">
-                        কোনো আসন্ন ডাক্তার অ্যাপয়েন্টমেন্ট নেই
-                    </div>
-
-                </div>
-            `;
-
+                    <div class="empty-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                    <div class="empty-text">কোনো আসন্ন ডাক্তার অ্যাপয়েন্টমেন্ট নেই</div>
+                </div>`;
             return;
         }
-
 
         card.innerHTML = '';
 
+        appointments.forEach(appointment => {
+            const item = document.createElement('div');
+            item.className = 'appointment-item';
 
-        appointments.forEach(
-            appointment => {
+            const when = formatDateTime(appointment.appointment_date);
+            const doctor = appointment.doctor_name || 'ডাক্তারের অ্যাপয়েন্টমেন্ট';
+            const location = appointment.location || '';
 
-                const item =
-                    document.createElement('div');
-
-
-                item.className =
-                    'appointment-item';
-
-
-                const when =
-                    formatDateTime(
-                        appointment.appointment_date
-                    );
-
-
-                const doctor =
-                    appointment.doctor_name
-                    || 'ডাক্তারের অ্যাপয়েন্টমেন্ট';
-
-
-                const location =
-                    appointment.location
-                    || '';
-
-
-                item.innerHTML = `
-
-                    <div class="appointment-top">
-
-                        <div class="doctor-icon">
-                            <i class="fa-solid fa-user-doctor"></i>
+            item.innerHTML = `
+                <div class="appointment-top">
+                    <div class="doctor-icon"><i class="fa-solid fa-user-doctor"></i></div>
+                    <div class="appointment-info">
+                        <div class="appointment-doctor">${esc(doctor)}</div>
+                        <div class="appointment-time"><i class="fa-regular fa-clock"></i> ${esc(when)}</div>
+                        ${location ? `
+                            <div class="appointment-location">
+                                <i class="fa-solid fa-location-dot"></i> ${esc(location)}
+                            </div>` : ''}
+                        <div class="appointment-badge">
+                            <i class="fa-solid fa-bell"></i> ডাক্তার রিমাইন্ডার
                         </div>
-
-
-                        <div class="appointment-info">
-
-                            <div class="appointment-doctor">
-                                ${esc(doctor)}
-                            </div>
-
-                            <div class="appointment-time">
-
-                                <i class="fa-regular fa-clock"></i>
-
-                                ${esc(when)}
-
-                            </div>
-
-                            ${
-                                location
-                                ? `
-                                    <div class="appointment-location">
-
-                                        <i class="fa-solid fa-location-dot"></i>
-
-                                        ${esc(location)}
-
-                                    </div>
-                                `
-                                : ''
-                            }
-
-
-                            <div class="appointment-badge">
-
-                                <i class="fa-solid fa-bell"></i>
-
-                                ডাক্তার রিমাইন্ডার
-
-                            </div>
-
-                        </div>
-
                     </div>
+                </div>
 
-                `;
+                <button type="button" class="appointment-ack">
+                    <i class="fa-solid fa-check"></i> পৌঁছেছি — আর reminder দরকার নেই
+                </button>
+            `;
 
+            const ackButton = item.querySelector('.appointment-ack');
+            ackButton.addEventListener('click', () =>
+                acknowledgeAppointment(appointment.id, ackButton)
+            );
 
-                card.appendChild(item);
-
-            }
-        );
+            card.appendChild(item);
+        });
     }
 
 
@@ -2677,6 +3037,12 @@
 
 
         if (res && res.ok) {
+
+            saveLocalNotification({
+                type: 'sos',
+                title: 'SOS পাঠানো হয়েছে',
+                body: 'আপনার caregiver-কে জরুরি alert জানানো হয়েছে।'
+            });
 
             showToast(
                 'SOS পাঠানো হয়েছে — caregiver-কে জানানো হয়েছে'
@@ -2968,6 +3334,13 @@
         .getElementById('todayDate')
         .textContent =
         getTodayDate();
+
+    setupNotificationCenter();
+
+    setInterval(() => {
+        loadMeds();
+        loadAppointments();
+    }, 30000);
 
 
     (async function init() {

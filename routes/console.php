@@ -12,4 +12,4 @@ Artisan::command('inspire', function () {
 Schedule::command('reminders:doses')->everyMinute();
 
 // Prottek 15 minute-e check kore appointment reminder pathaay (appointment-er 24 ghonta age)
-Schedule::command('reminders:appointments')->everyFifteenMinutes();
+Schedule::command('reminders:appointments')->everyMinute();

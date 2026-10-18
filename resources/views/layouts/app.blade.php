@@ -1920,8 +1920,8 @@
             await subscription.unsubscribe();
         }
     }
-
     @stack('scripts')
 </script>
+
 </body>
 </html>
