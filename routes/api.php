@@ -12,6 +12,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DoseLogController;
 use App\Http\Controllers\Api\PatientPushSubscriptionController;
+use App\Http\Controllers\Api\IllnessHistoryController;
+use App\Http\Controllers\Api\HospitalAdmissionController;
+use App\Http\Controllers\Api\PrescriptionHistoryController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -71,4 +74,19 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/push/vapid-public-key', [PushSubscriptionController::class, 'vapidPublicKey']);
     Route::post('/push/subscribe', [PushSubscriptionController::class, 'subscribe']);
     Route::post('/push/unsubscribe', [PushSubscriptionController::class, 'unsubscribe']);
+
+    Route::get('/patients/{patientId}/illness-histories',[IllnessHistoryController::class, 'index']);
+    Route::post('/patients/{patientId}/illness-histories',[IllnessHistoryController::class, 'store']);
+    Route::get('/patients/{patientId}/illness-histories/{id}',[IllnessHistoryController::class, 'show']);
+    Route::put('/patients/{patientId}/illness-histories/{id}',[IllnessHistoryController::class, 'update']);
+    Route::delete('/patients/{patientId}/illness-histories/{id}',[IllnessHistoryController::class, 'destroy']);
+
+    Route::get('/patients/{patientId}/hospital-admissions',[HospitalAdmissionController::class, 'index']);
+    Route::post('/patients/{patientId}/hospital-admissions',[HospitalAdmissionController::class, 'store']);
+    Route::get('/patients/{patientId}/hospital-admissions/{id}',[HospitalAdmissionController::class, 'show']);
+    Route::put('/patients/{patientId}/hospital-admissions/{id}',[HospitalAdmissionController::class, 'update']);
+    Route::delete('/patients/{patientId}/hospital-admissions/{id}',[HospitalAdmissionController::class, 'destroy']);
+
+    Route::get('/patients/{patientId}/prescription-history',[PrescriptionHistoryController::class, 'index']);
+    Route::get('/patients/{patientId}/prescription-history/{id}',[PrescriptionHistoryController::class, 'show']);
 });

@@ -28,6 +28,16 @@ class Patient extends Model
     {
         return $this->belongsTo(User::class, 'caregiver_id');
     }
+    
+    public function illnessHistories()
+    {
+        return $this->hasMany(IllnessHistory::class);
+    }
+    
+    public function hospitalAdmissions()
+    {
+        return $this->hasMany(HospitalAdmission::class);
+    }
 
     // Patient-er PWA link-er jonno ekta unique, na-guess-jogyo token toiri kore
     // (already thakle notun kore banay na, ekbari toiri hoy)
