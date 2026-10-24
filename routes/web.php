@@ -42,20 +42,12 @@ Route::get('/checkins', function () {
     return view('checkins.index');
 });
 
+Route::get('/medication-management', function () {
+    return view('medication-management.index');
+});
+
 Route::get('/sos-alerts', function () {
     return view('sos-alerts.index');
-});
-
-Route::get('/schedule', function () {
-    return view('schedule.index');
-});
-
-Route::get('/tracking', function () {
-    return view('tracking.index');
-});
-
-Route::get('/reminders', function () {
-    return view('reminders.index');
 });
 
 // Patient PWA - token diye access, caregiver login lage na

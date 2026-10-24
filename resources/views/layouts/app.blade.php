@@ -1547,31 +1547,10 @@
                                 <span>স্বাস্থ্য ইতিহাস</span>
                             </a>
 
-                            <a href="/schedule" class="sidebar-item {{ request()->is('schedule*') ? 'active' : '' }}">
-                                <svg viewBox="0 0 24 24" class="icon">
-                                    <rect x="3" y="4" width="18" height="17" rx="3" />
-                                    <path d="M8 2v4" />
-                                    <path d="M16 2v4" />
-                                    <path d="M3 10h18" />
-                                    <path d="M8 15h3" />
-                                </svg>
-                                <span>ওষুধের সময়সূচী</span>
-                            </a>
-
-                            <a href="/tracking" class="sidebar-item {{ request()->is('tracking*') ? 'active' : '' }}">
-                                <svg viewBox="0 0 24 24" class="icon">
-                                    <path d="M9 11l2 2 4-4" />
-                                    <circle cx="12" cy="12" r="9" />
-                                </svg>
-                                <span>ওষুধ গ্রহণ ট্র্যাকিং</span>
-                            </a>
-
-                            <a href="/reminders" class="sidebar-item {{ request()->is('reminders*') ? 'active' : '' }}">
-                                <svg viewBox="0 0 24 24" class="icon">
-                                    <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9" />
-                                    <path d="M10 21h4" />
-                                </svg>
-                                <span>রিমাইন্ডার</span>
+                            <a href="/medication-management"
+                                class="sidebar-item {{ request()->is('medication-management*') ? 'active' : '' }}">
+                                <i class="fa-solid fa-pills"></i>
+                                <span>ওষুধ ব্যবস্থাপনা</span>
                             </a>
 
                             <a href="/appointments" class="sidebar-item {{ request()->is('appointments*') ? 'active' : '' }}">
