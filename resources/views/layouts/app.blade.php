@@ -1784,15 +1784,22 @@
         window.location.href = '/login';
     }
 
+    
     async function apiFetch(path, options = {}) {
+        const headers = {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + token,
+            ...(options.headers || {}),
+        };
+
+        // FormData হলে Content-Type browser নিজে সেট করবে
+        if (!(options.body instanceof FormData)) {
+            headers['Content-Type'] = 'application/json';
+        }
+
         const response = await fetch(API_BASE + path, {
             ...options,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token,
-                ...(options.headers || {}),
-            },
+            headers,
         });
 
         if (response.status === 401) {
@@ -1803,6 +1810,7 @@
 
         return response;
     }
+
 
     function firstBengaliInitial(name) {
         return name && name.trim().length ? name.trim().charAt(0) : '?';

@@ -267,6 +267,13 @@
         line-height: 1.6;
     }
 
+    .message.success {
+        display: block;
+        color: #166534;
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+    }
+
     .message.error {
         display: block;
         color: #b42318;
@@ -612,7 +619,6 @@
 
 
 @push('scripts')
-<script>
 
     const patientSelect = document.getElementById('patientSelect');
     const fileInput = document.getElementById('prescriptionFile');
@@ -735,8 +741,6 @@
 
         dropZone.classList.remove('has-file');
 
-        clearMessage();
-
         updateButton();
     }
 
@@ -843,14 +847,61 @@
 
     /* Scan */
 
-    scanBtn.addEventListener('click', function() {
+    
+/* Upload prescription */
 
-        showMessage(
-            'প্রেসক্রিপশনের ছবি প্রস্তুত হয়েছে। OCR ও AI processing backend এখনো সংযুক্ত করা হয়নি।',
-            'info'
-        );
+scanBtn.addEventListener('click', async function () {
+        if (!patientSelect.value || !selectedFile) {
+            showMessage('রোগী নির্বাচন করুন এবং প্রেসক্রিপশনের ছবি দিন।', 'error');
+            return;
+        }
 
+        const formData = new FormData();
+        formData.append('image', selectedFile);
+
+        scanBtn.disabled = true;
+        scanBtn.textContent = 'আপলোড হচ্ছে...';
+        showMessage('প্রেসক্রিপশনের ছবি আপলোড হচ্ছে...', 'info');
+
+        try {
+            const response = await apiFetch(
+                `/patients/${patientSelect.value}/prescriptions`,
+                {
+                    method: 'POST',
+                    body: formData
+                }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                const errors = data.errors
+                    ? Object.values(data.errors).flat().join(' ')
+                    : data.message;
+
+                throw new Error(errors || 'প্রেসক্রিপশন আপলোড করা যায়নি।');
+            }
+
+            showMessage(
+                '✓ প্রেসক্রিপশন সফলভাবে আপলোড হয়েছে!',
+                'success'
+            );
+
+            resetFile();
+
+        } catch (error) {
+            console.error('Prescription upload failed:', error);
+
+            showMessage(
+                error.message || 'আপলোড ব্যর্থ হয়েছে। আবার চেষ্টা করুন।',
+                'error'
+            );
+        } finally {
+            scanBtn.textContent = 'স্ক্যান শুরু করুন';
+            updateButton();
+        }
     });
+
 
 
     /* Load patients */
@@ -916,5 +967,4 @@
 
     loadPatients();
 
-</script>
 @endpush

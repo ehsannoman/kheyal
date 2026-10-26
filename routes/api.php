@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\HospitalAdmissionController;
 use App\Http\Controllers\Api\PrescriptionHistoryController;
 use App\Http\Controllers\Api\VitalRecordController;
 use App\Http\Controllers\Api\PatientConditionController;
+use App\Http\Controllers\Api\PrescriptionController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -103,4 +104,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/patients/{patientId}/conditions', [PatientConditionController::class, 'store']);
     Route::put('/patients/{patientId}/conditions/{id}', [PatientConditionController::class, 'update']);
     Route::delete('/patients/{patientId}/conditions/{id}', [PatientConditionController::class, 'destroy']);
+
+    Route::post('/patients/{patientId}/prescriptions',[PrescriptionController::class, 'store']);
+    Route::get('/prescriptions',[PrescriptionController::class, 'index']);
+    Route::get('/prescriptions/{prescriptionId}',[PrescriptionController::class, 'show']);
+    Route::put('/prescriptions/{prescriptionId}',[PrescriptionController::class, 'update']);
+    Route::delete('/prescriptions/{prescriptionId}',[PrescriptionController::class, 'destroy']);
+    Route::get('/prescriptions/{prescriptionId}/image',[PrescriptionController::class, 'showImage']);
 });

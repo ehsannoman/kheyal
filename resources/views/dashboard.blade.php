@@ -6,7 +6,6 @@
 @section('content')
 
 <style>
-    /* Preserve the dashboard's original theme and card geometry. */
     .quick-actions a.quick-action {
         display: block;
         color: inherit;
