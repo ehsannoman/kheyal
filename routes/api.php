@@ -15,6 +15,8 @@ use App\Http\Controllers\Api\PatientPushSubscriptionController;
 use App\Http\Controllers\Api\IllnessHistoryController;
 use App\Http\Controllers\Api\HospitalAdmissionController;
 use App\Http\Controllers\Api\PrescriptionHistoryController;
+use App\Http\Controllers\Api\VitalRecordController;
+use App\Http\Controllers\Api\PatientConditionController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -89,4 +91,16 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/patients/{patientId}/prescription-history',[PrescriptionHistoryController::class, 'index']);
     Route::get('/patients/{patientId}/prescription-history/{id}',[PrescriptionHistoryController::class, 'show']);
+
+    Route::get('/patients/{patientId}/vitals', [VitalRecordController::class, 'index']);
+    Route::post('/patients/{patientId}/vitals', [VitalRecordController::class, 'store']);
+    Route::get('/patients/{patientId}/vitals/{id}', [VitalRecordController::class, 'show']);
+    Route::put('/patients/{patientId}/vitals/{id}', [VitalRecordController::class, 'update']);
+    Route::delete('/patients/{patientId}/vitals/{id}', [VitalRecordController::class, 'destroy']);
+
+    Route::get('/patient-conditions/options', [PatientConditionController::class, 'options']);
+    Route::get('/patients/{patientId}/conditions', [PatientConditionController::class, 'index']);
+    Route::post('/patients/{patientId}/conditions', [PatientConditionController::class, 'store']);
+    Route::put('/patients/{patientId}/conditions/{id}', [PatientConditionController::class, 'update']);
+    Route::delete('/patients/{patientId}/conditions/{id}', [PatientConditionController::class, 'destroy']);
 });

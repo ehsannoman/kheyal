@@ -80,4 +80,14 @@ class Patient extends Model
     {
         return $this->hasMany(Checkin::class);
     }
+
+    public function vitalRecords()
+    {
+        return $this->hasMany(VitalRecord::class);
+    }
+
+    public function conditions()
+    {
+        return $this->hasMany(PatientCondition::class);
+    }
 }

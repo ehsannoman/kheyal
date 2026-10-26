@@ -38,6 +38,10 @@ Route::get('/health-history', function () {
     return view('health-history.index');
 });
 
+Route::get('/vitals-health', function () {
+    return view('vitals-health.index');
+});
+
 Route::get('/checkins', function () {
     return view('checkins.index');
 });

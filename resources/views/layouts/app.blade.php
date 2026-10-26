@@ -1569,7 +1569,7 @@
                 </div>
 
                 <!-- MONITORING -->
-                <div class="sidebar-section collapsed" data-section>
+                <div class="sidebar-section {{ request()->is('checkins*') || request()->is('vitals-health*') || request()->is('sos-alerts*') ? '' : 'collapsed' }}" data-section>
                     <button class="nav-section-header" type="button">
                         <span class="nav-section-title">পর্যবেক্ষণ</span>
                         <svg viewBox="0 0 24 24" class="nav-section-arrow icon">
@@ -1587,7 +1587,8 @@
                                 <span>চেক-ইন মনিটরিং</span>
                             </a>
 
-                            <a href="#" class="sidebar-item">
+                            <a href="/vitals-health"
+                                class="sidebar-item {{ request()->is('vitals-health*') ? 'active' : '' }}">
                                 <svg viewBox="0 0 24 24" class="icon">
                                     <path d="M3 12h4l2-5 4 10 2-5h6" />
                                 </svg>
