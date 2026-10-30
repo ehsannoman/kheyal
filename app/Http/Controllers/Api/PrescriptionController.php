@@ -7,6 +7,9 @@ use App\Models\Prescription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use App\Services\OcrSpaceService;
+use App\Services\GroqPrescriptionService;
+use Illuminate\Support\Facades\Log;
 
 class PrescriptionController extends Controller
 {
@@ -14,8 +17,13 @@ class PrescriptionController extends Controller
      * POST /api/patients/{patientId}/prescriptions
      * Caregiver-er patient-er prescription image upload kore.
      */
-    public function store(Request $request, int $patientId)
-    {
+    
+    public function store(
+        Request $request,
+        int $patientId,
+        OcrSpaceService $ocrService,
+        GroqPrescriptionService $groqService
+    ) {
         $patient = $request->user()
             ->patients()
             ->find($patientId);
@@ -45,19 +53,56 @@ class PrescriptionController extends Controller
                 'patient_id' => $patient->id,
                 'uploaded_by' => $request->user()->id,
                 'image_path' => $path,
-                'status' => 'pending',
+                'status' => 'processing',
             ]);
         } catch (\Throwable $e) {
             Storage::disk('local')->delete($path);
-
             throw $e;
         }
 
-        return response()->json([
-            'message' => 'Prescription image uploaded successfully',
-            'prescription' => $prescription,
-        ], 201);
+        try {
+            // Step 1: Extract text from prescription image
+            $ocrResult = $ocrService->extractText($path);
+
+            $rawOcrText = $ocrResult['text'];
+
+            // Save original OCR text
+            $prescription->raw_ocr_text = $rawOcrText;
+            $prescription->save();
+
+            // Step 2: Refine OCR text using Groq
+            $parsedData = $groqService->refine($rawOcrText);
+
+            // Step 3: Save AI extracted data
+            $prescription->ai_parsed_data = $parsedData;
+
+            // Caregiver has not confirmed the extracted information yet
+            $prescription->status = 'pending';
+
+            $prescription->save();
+
+            return response()->json([
+                'message' => 'Prescription uploaded and processed successfully. Caregiver confirmation required.',
+                'prescription' => $prescription->load('patient:id,name'),
+            ], 201);
+
+        } catch (\Throwable $e) {
+
+            Log::error('Prescription processing failed', [
+                'prescription_id' => $prescription->id,
+                'error' => $e->getMessage(),
+            ]);
+
+            $prescription->status = 'failed';
+            $prescription->save();
+
+            return response()->json([
+                'message' => 'Prescription image uploaded, but OCR or AI processing failed.',
+                'prescription' => $prescription->load('patient:id,name'),
+            ], 201);
+        }
     }
+
 
     
     /**
@@ -171,6 +216,7 @@ class PrescriptionController extends Controller
         }
 
         $validated = $request->validate([
+            'ai_parsed_data' => ['sometimes', 'array'],
             'doctor_name' => ['sometimes', 'nullable', 'string', 'max:255'],
             'prescription_date' => ['sometimes', 'nullable', 'date'],
             'follow_up_date' => ['sometimes', 'nullable', 'date'],
@@ -183,6 +229,60 @@ class PrescriptionController extends Controller
         return response()->json([
             'message' => 'Prescription updated successfully',
             'prescription' => $prescription->load('patient:id,name'),
+        ]);
+    }
+
+    /**
+ * POST /api/prescriptions/{prescriptionId}/confirm
+ * Caregiver prescription review kore approve kore.
+ */
+    public function confirm(Request $request, int $prescriptionId)
+    {
+        $prescription = Prescription::query()
+            ->whereHas('patient', function ($query) use ($request) {
+                $query->where('caregiver_id', $request->user()->id);
+            })
+            ->find($prescriptionId);
+
+        if (!$prescription) {
+            return response()->json([
+                'message' => 'Prescription not found',
+            ], 404);
+        }
+
+        if ($prescription->status !== 'pending') {
+            return response()->json([
+                'message' => 'Only pending prescriptions can be confirmed',
+            ], 422);
+        }
+
+        // Lock record to prevent simultaneous duplicate approval
+        $confirmed = \Illuminate\Support\Facades\DB::transaction(function () use ($prescriptionId) {
+
+            $prescription = Prescription::whereKey($prescriptionId)
+                ->lockForUpdate()
+                ->first();
+
+            if (!$prescription || $prescription->status !== 'pending') {
+                return false;
+            }
+
+            $prescription->update([
+                'status' => 'confirmed',
+            ]);
+
+            return true;
+        });
+
+        if (!$confirmed) {
+            return response()->json([
+                'message' => 'Prescription has already been confirmed',
+            ], 422);
+        }
+
+        return response()->json([
+            'message' => 'Prescription confirmed successfully',
+            'prescription' => $prescription->fresh()->load('patient:id,name'),
         ]);
     }
 

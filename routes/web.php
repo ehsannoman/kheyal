@@ -59,6 +59,12 @@ Route::get('/patient/{token}/home', function ($token) {
     return view('patient-app.home', ['token' => $token]);
 });
 
+Route::get('/prescriptions/{id}/review', function ($id) {
+    return view('prescriptions.review', [
+        'prescriptionId' => (int) $id
+    ]);
+});
+
 Route::get('/patient/{token}/manifest.json', function ($token) {
     return response()->json([
         'name' => 'খেয়াল',

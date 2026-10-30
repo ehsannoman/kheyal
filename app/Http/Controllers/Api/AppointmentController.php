@@ -129,6 +129,21 @@ class AppointmentController extends Controller
         }
 
         $data = $validator->validated();
+        if (!empty($data['prescription_id'])) {
+
+            $prescriptionExists = \App\Models\Prescription::where(
+                'id',
+                $data['prescription_id']
+            )
+            ->where('patient_id', $patient->id)
+            ->exists();
+
+            if (!$prescriptionExists) {
+                return response()->json([
+                    'message' => 'Prescription does not belong to this patient.',
+                ], 422);
+            }
+        }
 
 
         /*

@@ -319,17 +319,11 @@ function renderPrescriptions(items) {
         const group = document.createElement('div');
         group.className = 'action-group';
 
-        const viewButton = document.createElement('button');
-        viewButton.type = 'button';
-        viewButton.className = 'view-btn';
-        viewButton.textContent = 'বিস্তারিত';
-        viewButton.addEventListener('click', () => openPrescriptionDetails(prescription.id));
-
-        const editButton = document.createElement('button');
-        editButton.type = 'button';
-        editButton.className = 'view-btn';
-        editButton.textContent = 'সম্পাদনা';
-        editButton.addEventListener('click', () => openPrescriptionEdit(prescription.id));
+        const reviewLink = document.createElement('a');
+        reviewLink.href = `/prescriptions/${prescription.id}/review`;
+        reviewLink.className = 'view-btn';
+        reviewLink.textContent = 'যাচাই করুন';
+        reviewLink.style.textDecoration = 'none';
 
         const deleteButton = document.createElement('button');
         deleteButton.type = 'button';
@@ -337,7 +331,7 @@ function renderPrescriptions(items) {
         deleteButton.textContent = 'মুছুন';
         deleteButton.addEventListener('click', () => deletePrescription(prescription.id));
 
-        group.append(viewButton, editButton, deleteButton);
+        group.append(reviewLink, deleteButton);
         actionCell.appendChild(group);
         row.appendChild(actionCell);
         tableBody.appendChild(row);

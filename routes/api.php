@@ -111,4 +111,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/prescriptions/{prescriptionId}',[PrescriptionController::class, 'update']);
     Route::delete('/prescriptions/{prescriptionId}',[PrescriptionController::class, 'destroy']);
     Route::get('/prescriptions/{prescriptionId}/image',[PrescriptionController::class, 'showImage']);
+    Route::post('/prescriptions/{prescriptionId}/confirm',[PrescriptionController::class, 'confirm']);
 });

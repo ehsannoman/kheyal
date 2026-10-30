@@ -12,6 +12,7 @@ class Schedule extends Model
     protected $fillable = [
         'medication_id',
         'scheduled_time',
+        'dose_amount',
         'days_of_week',
         'is_active',
     ];
