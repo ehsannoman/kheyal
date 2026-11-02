@@ -344,18 +344,162 @@
             overflow: hidden;
         }
 
+        /* 1. Floating Capsule Container with Dual Tint Base */
         .topbar {
-            height: 72px;
-            flex: 0 0 72px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 32px;
-            background: #FFFFFF !important;
-            border-bottom: 1px solid #CBD5E1 !important;
-            box-shadow: 0 4px 18px rgba(15, 27, 61, 0.04) !important;
+            height: 64px !important;
+            flex: 0 0 64px !important;
+            margin: 14px 32px 0 32px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            padding: 0 24px !important;
+            
+            /* Midnight Navy (left-hand depth) + Soft Coral (right-hand warm accent) */
+            background-color: #F3F6FA !important;
+            background-image: linear-gradient(120deg, rgba(15, 27, 61, 0.06) 0%, #F8FAFC 45%, rgba(255, 92, 92, 0.07) 100%) !important;
+            
+            border: 1px solid rgba(15, 27, 61, 0.12) !important;
+            border-radius: 16px !important;
+            box-shadow: 0 8px 24px -4px rgba(15, 27, 61, 0.08), 0 2px 6px -1px rgba(15, 27, 61, 0.03) !important;
             position: relative;
             z-index: 50;
+            overflow: hidden;
+        }
+
+        /* 2. Smooth Organic Vector Overlay (No Sharp Hacksaw Edges) */
+        .topbar::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='600' height='64' viewBox='0 0 600 64' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 64C140 18 280 52 420 16C500 -4 550 36 600 18V0H0V64Z' fill='%230F1B3D' fill-opacity='0.05'/%3E%3Ccircle cx='510' cy='8' r='48' fill='%23FF5C5C' fill-opacity='0.06'/%3E%3Ccircle cx='60' cy='56' r='40' fill='%230F1B3D' fill-opacity='0.03'/%3E%3Cpath d='M250 64C340 38 450 58 540 28C570 18 590 38 600 32V64H250Z' fill='%23FF5C5C' fill-opacity='0.04'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center right;
+            background-size: cover;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Ensure Text & Icons render smoothly above the vector mesh */
+        .topbar-left,
+        .topbar-right {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Default overlay lines cleanup */
+        .topbar::after {
+            display: none !important;
+        }
+
+        /* 2. Title with Coral Dot */
+        .page-title {
+            color: #0F1B3D !important;
+            font-size: 1.15rem !important;
+            font-weight: 800 !important;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .page-title::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #FF5C5C !important;
+        }
+
+        /* 3. Action Notification Button */
+        .top-action {
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border: 1px solid #E2E8F0 !important;
+            border-radius: 10px !important;
+            background: #F8FAFC !important;
+            color: #0F1B3D !important;
+            cursor: pointer;
+            transition: all 0.2s ease !important;
+        }
+
+        .top-action:hover {
+            border-color: #FF5C5C !important;
+            color: #FF5C5C !important;
+            background: #FFFFFF !important;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            min-width: 17px;
+            height: 17px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #FF5C5C !important;
+            color: #FFFFFF !important;
+            border: 2px solid #FFFFFF !important;
+            font-size: 9.5px;
+            font-weight: 800;
+        }
+
+        /* 4. Profile Badge */
+        .profile-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 3px 10px 3px 4px;
+            background: #F8FAFC !important;
+            border: 1px solid #E2E8F0 !important;
+            border-radius: 999px !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .profile-area:hover {
+            border-color: #0F1B3D !important;
+            background: #FFFFFF !important;
+        }
+
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50% !important;
+            color: #FFFFFF !important;
+            font-size: 13px;
+            font-weight: 800;
+            background: #0F1B3D !important;
+        }
+
+        .profile-name {
+            color: #0F1B3D !important;
+            font-size: 12.5px !important;
+            font-weight: 800 !important;
+        }
+
+        .profile-role {
+            color: #64748B !important;
+            font-size: 10px !important;
+        }
+
+        .profile-arrow {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50% !important;
+            color: #64748B !important;
+            background: #FFFFFF !important;
+            border: 1px solid #E2E8F0 !important;
         }
 
         .topbar-left {
