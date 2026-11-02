@@ -17,7 +17,7 @@
 
     <style>
         /* =========================================================
-           GLOBAL
+           GLOBAL COLOR VARS & DEEP CANVAS
         ========================================================= */
         :root {
             --navy-950: #071222;
@@ -62,13 +62,44 @@
             overflow: hidden;
         }
 
+        /* Canvas Background Tone */
         body {
             font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif !important;
             color: var(--ink);
-            background:
-                radial-gradient(circle at 86% 8%, rgba(255, 113, 104, 0.12), transparent 24%),
-                radial-gradient(circle at 42% 100%, rgba(68, 96, 137, 0.08), transparent 30%),
-                linear-gradient(180deg, #f7f9fc 0%, #edf2f8 100%);
+            background-color: #E2E9F0 !important;
+            background-image: linear-gradient(180deg, #E0E7EE 0%, #EAEFF5 100%) !important;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Top-Right Vector Art Overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 520px;
+            height: 520px;
+            background-image: url("data:image/svg+xml,%3Csvg width='520' height='520' viewBox='0 0 520 520' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M320 0C430 0 520 90 520 200V0H320Z' fill='%23FF5C5C' fill-opacity='0.09'/%3E%3Ccircle cx='440' cy='130' r='190' fill='%23FF5C5C' fill-opacity='0.06'/%3E%3Cpath d='M470 230C410 320 330 360 250 330C170 300 190 190 300 160C410 130 490 170 470 230Z' fill='%230F1B3D' fill-opacity='0.05'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: top right;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Bottom-Left Vector Art Overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 580px;
+            height: 580px;
+            background-image: url("data:image/svg+xml,%3Csvg width='580' height='580' viewBox='0 0 580 580' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='110' cy='470' r='270' fill='%230F1B3D' fill-opacity='0.06'/%3E%3Cpath d='M0 360C130 360 190 460 320 430C450 400 500 490 580 580H0V360Z' fill='%23FF5C5C' fill-opacity='0.05'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: bottom left;
+            pointer-events: none;
+            z-index: 0;
         }
 
         button,
@@ -101,18 +132,17 @@
         }
 
         /* =========================================================
-           APP WRAPPER
+           APP WRAPPER & SIDEBAR
         ========================================================= */
         .app-layout {
             width: 100%;
             height: 100dvh;
             display: flex;
             overflow: hidden;
+            position: relative;
+            z-index: 1;
         }
 
-        /* =========================================================
-           SIDEBAR
-        ========================================================= */
         .app-sidebar {
             width: 268px;
             height: 100dvh;
@@ -140,9 +170,6 @@
             pointer-events: none;
         }
 
-        /* =========================================================
-           BRAND
-        ========================================================= */
         .brand-area {
             height: 72px;
             flex: 0 0 72px;
@@ -170,9 +197,6 @@
             object-position: left center;
         }
 
-        /* =========================================================
-           SIDEBAR NAV
-        ========================================================= */
         .sidebar-nav {
             flex: 1;
             min-height: 0;
@@ -258,9 +282,6 @@
             opacity: 0;
         }
 
-        /* =========================================================
-           SIDEBAR ITEM
-        ========================================================= */
         .sidebar-item {
             min-height: 42px;
             display: flex;
@@ -312,7 +333,7 @@
         }
 
         /* =========================================================
-           MAIN SHELL
+           MAIN SHELL & TOPBAR
         ========================================================= */
         .dashboard-shell {
             height: 100dvh;
@@ -323,9 +344,6 @@
             overflow: hidden;
         }
 
-        /* =========================================================
-           TOPBAR
-        ========================================================= */
         .topbar {
             height: 72px;
             flex: 0 0 72px;
@@ -333,21 +351,11 @@
             align-items: center;
             justify-content: space-between;
             padding: 0 32px;
-            background: rgba(248, 250, 253, 0.78);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(211, 220, 232, 0.70);
+            background: #FFFFFF !important;
+            border-bottom: 1px solid #CBD5E1 !important;
+            box-shadow: 0 4px 18px rgba(15, 27, 61, 0.04) !important;
             position: relative;
             z-index: 50;
-        }
-
-        .topbar::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 113, 104, 0.15), transparent);
         }
 
         .topbar-left {
@@ -357,9 +365,22 @@
         }
 
         .page-title {
-            color: #1d2b40;
-            font-size: 20px;
-            font-weight: 800;
+            color: #0F1B3D !important;
+            font-size: 1.25rem !important;
+            font-weight: 800 !important;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .page-title::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #FF5C5C !important;
+            flex-shrink: 0;
         }
 
         .topbar-right {
@@ -375,85 +396,100 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            border: 1px solid rgba(219, 226, 235, 0.9);
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.85);
-            color: #3c4b61;
+            border: 1px solid #CBD5E1 !important;
+            border-radius: 12px !important;
+            background: #F8FAFC !important;
+            color: #0F1B3D !important;
             cursor: pointer;
-            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
-            transition: 0.2s ease;
+            box-shadow: 0 2px 6px rgba(15, 27, 61, 0.03) !important;
+            transition: all 0.2s ease !important;
         }
 
         .top-action:hover {
-            color: var(--coral);
-            background: #ffffff;
-            transform: translateY(-2px);
-            box-shadow: 0 9px 20px rgba(15, 23, 42, 0.08);
+            border-color: #FF5C5C !important;
+            color: #FF5C5C !important;
+            background: #FFFFFF !important;
+            transform: translateY(-1px);
         }
 
         .notification-badge {
             position: absolute;
-            top: -3px;
-            right: -3px;
+            top: -4px;
+            right: -4px;
             min-width: 18px;
             height: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            background: var(--coral-dark);
-            color: #ffffff;
-            border: 2px solid #f8fafc;
-            font-size: 9px;
+            background: #FF5C5C !important;
+            color: #FFFFFF !important;
+            border: 2px solid #FFFFFF !important;
+            font-size: 10px;
             font-weight: 800;
-            box-shadow: 0 4px 10px rgba(239, 95, 89, 0.28);
         }
 
         .profile-area {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding-left: 6px;
-            cursor: pointer;
+            gap: 10px;
+            padding: 4px 12px 4px 5px;
+            background: #FFFFFF !important;
+            border: 1px solid #CBD5E1 !important;
+            border-radius: 999px !important;
+            box-shadow: 0 2px 8px rgba(15, 27, 61, 0.04) !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .profile-area:hover {
+            border-color: #0F1B3D !important;
+            box-shadow: 0 4px 12px rgba(15, 27, 61, 0.08) !important;
         }
 
         .profile-avatar {
-            width: 40px;
-            height: 40px;
+            width: 34px;
+            height: 34px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 50%;
-            color: #ffffff;
-            font-size: 15px;
+            border-radius: 50% !important;
+            color: #FFFFFF !important;
+            font-size: 14px;
             font-weight: 800;
-            background: linear-gradient(145deg, #456083, #1d2f49);
-            box-shadow: 0 6px 14px rgba(30, 47, 73, 0.15);
+            background: #0F1B3D !important;
         }
 
         .profile-name {
-            color: #263247;
-            font-size: 13px;
-            font-weight: 800;
+            color: #0F1B3D !important;
+            font-size: 13px !important;
+            font-weight: 800 !important;
             line-height: 1.2;
         }
 
         .profile-role {
-            margin-top: 2px;
-            color: #8793a4;
-            font-size: 11px;
+            color: #64748B !important;
+            font-size: 10px !important;
             line-height: 1;
         }
 
         .profile-arrow {
-            width: 16px;
-            height: 16px;
-            color: #738095;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50% !important;
+            color: #64748B !important;
+            background: #F8FAFC !important;
+            border: 1px solid #E2E8F0 !important;
+            transition: all 0.2s ease !important;
         }
 
-        /* =========================================================
-           MOBILE MENU
-        ========================================================= */
+        .profile-arrow:hover {
+            color: #FF5C5C !important;
+            background: rgba(255, 92, 92, 0.1) !important;
+        }
+
         .mobile-menu-button {
             display: none;
             width: 40px;
@@ -500,8 +536,24 @@
         }
 
         /* =========================================================
-           WELCOME
+           GLOBAL SOLID WHITE CARDS
         ========================================================= */
+        .stat-card,
+        .patients-card,
+        .dashboard-panel,
+        .quick-actions a.quick-action,
+        .history-panel,
+        .date-card,
+        .card {
+            position: relative;
+            z-index: 1;
+            background: #FFFFFF !important;
+            border: 1px solid #D0DBE5 !important;
+            box-shadow: 0 10px 30px -5px rgba(15, 27, 61, 0.08), 0 2px 6px -1px rgba(15, 27, 61, 0.04) !important;
+            border-radius: 1.125rem !important;
+        }
+
+        /* Welcome Section */
         .welcome-section {
             display: flex;
             align-items: center;
@@ -530,13 +582,9 @@
             align-items: center;
             gap: 9px;
             padding: 0 16px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 248, 247, 0.90));
-            border: 1px solid rgba(232, 218, 216, 0.85);
             color: #526176;
             font-size: 12px;
             font-weight: 700;
-            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.03);
         }
 
         .date-card svg {
@@ -545,9 +593,7 @@
             color: var(--coral);
         }
 
-        /* =========================================================
-           STATS
-        ========================================================= */
+        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -560,10 +606,6 @@
             padding: 16px;
             position: relative;
             overflow: hidden;
-            border-radius: 16px;
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(249, 251, 254, 0.88));
-            border: 1px solid rgba(220, 227, 236, 0.9);
-            box-shadow: 0 6px 20px rgba(15, 23, 42, 0.04);
             transition: transform 0.22s ease, box-shadow 0.22s ease;
         }
 
@@ -662,9 +704,7 @@
             color: var(--danger);
         }
 
-        /* =========================================================
-           SECTION HEADER
-        ========================================================= */
+        /* Section Header & Patients */
         .section-header {
             display: flex;
             align-items: center;
@@ -693,15 +733,8 @@
             transform: translateX(2px);
         }
 
-        /* =========================================================
-           PATIENT CARD
-        ========================================================= */
         .patients-card {
             overflow: hidden;
-            border-radius: 18px;
-            background: rgba(255, 255, 255, 0.92);
-            border: 1px solid rgba(220, 227, 236, 0.9);
-            box-shadow: 0 6px 22px rgba(15, 23, 42, 0.04);
         }
 
         .patient-row {
@@ -875,9 +908,7 @@
             transform: translateX(2px);
         }
 
-        /* =========================================================
-           MIDDLE GRID
-        ========================================================= */
+        /* Panels & Grids */
         .dashboard-grid {
             display: grid;
             grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
@@ -889,10 +920,6 @@
             padding: 20px;
             position: relative;
             overflow: hidden;
-            border-radius: 18px;
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 253, 0.88));
-            border: 1px solid rgba(220, 227, 236, 0.9);
-            box-shadow: 0 6px 20px rgba(15, 23, 42, 0.04);
         }
 
         .dashboard-panel::before {
@@ -918,9 +945,6 @@
             font-size: 11px;
         }
 
-        /* =========================================================
-           MEDICINE SUMMARY
-        ========================================================= */
         .summary-content {
             min-height: 140px;
             display: flex;
@@ -1006,9 +1030,6 @@
             color: #344056;
         }
 
-        /* =========================================================
-           ALERTS
-        ========================================================= */
         .alerts-list {
             margin-top: 12px;
             overflow: hidden;
@@ -1083,6 +1104,10 @@
             font-weight: 800;
             cursor: pointer;
             transition: 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
         }
 
         .view-alerts:hover {
@@ -1091,9 +1116,7 @@
             border-color: #ffd8d4;
         }
 
-        /* =========================================================
-           QUICK ACTIONS
-        ========================================================= */
+        /* Quick Actions Left Alignment */
         .quick-actions {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1105,25 +1128,21 @@
             min-height: 100px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            align-items: flex-start;
+            text-align: left;
             gap: 6px;
-            padding: 12px;
+            padding: 16px;
             position: relative;
             overflow: hidden;
-            border-radius: 16px;
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(249, 251, 254, 0.86));
-            border: 1px solid rgba(220, 227, 236, 0.9);
             color: #58657a;
             cursor: pointer;
-            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.03);
             transition: 0.22s ease;
         }
 
         .quick-action:hover {
             transform: translateY(-3px);
-            border-color: #ffd8d4;
-            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.07);
+            border-color: #ffd8d4 !important;
+            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.07) !important;
         }
 
         .quick-icon {
@@ -1133,6 +1152,8 @@
             align-items: center;
             justify-content: center;
             border-radius: 12px;
+            margin-left: 0;
+            margin-right: 0;
             transition: transform 0.2s ease;
         }
 
@@ -1167,28 +1188,25 @@
 
         .quick-title {
             color: #344056;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 800;
+            text-align: left;
+            width: 100%;
         }
 
         .quick-text {
             color: #909aaa;
-            font-size: 10px;
-            text-align: center;
+            font-size: 11px;
+            text-align: left;
+            width: 100%;
         }
 
-        /* =========================================================
-           HEALTH HISTORY
-        ========================================================= */
+        /* Health History */
         .history-panel {
             margin-top: 20px;
             padding: 20px;
             position: relative;
             overflow: hidden;
-            border-radius: 18px;
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 253, 0.88));
-            border: 1px solid rgba(220, 227, 236, 0.9);
-            box-shadow: 0 6px 20px rgba(15, 23, 42, 0.04);
         }
 
         .history-list {
@@ -1265,9 +1283,7 @@
             line-height: 1.6;
         }
 
-        /* =========================================================
-           FOOTER
-        ========================================================= */
+        /* Footer & Overlay */
         .app-footer {
             max-width: 1480px;
             margin: 22px auto 0;
@@ -1285,9 +1301,6 @@
             font-weight: 800;
         }
 
-        /* =========================================================
-           SIDEBAR OVERLAY
-        ========================================================= */
         .sidebar-overlay {
             display: none;
             position: fixed;
@@ -1301,9 +1314,7 @@
             display: block;
         }
 
-        /* =========================================================
-           RESPONSIVE
-        ========================================================= */
+        /* Responsive Breakpoints */
         @media (max-width: 1250px) {
             .app-sidebar {
                 width: 250px;
@@ -1366,7 +1377,7 @@
             }
 
             .topbar {
-                padding: 0 18px;
+                padding: 0 18px !important;
             }
 
             .dashboard-content {
@@ -1384,8 +1395,8 @@
 
         @media (max-width: 600px) {
             .topbar {
-                height: 64px;
-                flex-basis: 64px;
+                height: 64px !important;
+                flex-basis: 64px !important;
             }
 
             .brand-area {
@@ -1449,7 +1460,6 @@
                 gap: 6px;
             }
         }
-        
     </style>
     @stack('styles')
 </head>
@@ -1657,7 +1667,7 @@
     <!-- MOBILE OVERLAY -->
     <div id="sidebarOverlay" class="sidebar-overlay"></div>
 
-    <!-- MAIN -->
+    <!-- MAIN SHELL -->
     <div class="dashboard-shell">
 
         <!-- TOPBAR -->
@@ -1675,7 +1685,7 @@
             </div>
 
             <div class="topbar-right">
-                <button class="top-action">
+                <button class="top-action" title="সতর্কতাসমূহ">
                     <svg viewBox="0 0 24 24" class="icon">
                         <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9" />
                         <path d="M10 21h4" />
@@ -1691,7 +1701,7 @@
                         <div class="profile-role">কেয়ারগিভার</div>
                     </div>
 
-                    <button type="button" id="logoutButton" class="profile-arrow icon" style="background:none;border:none;cursor:pointer;" title="লগআউট">
+                    <button type="button" id="logoutButton" class="profile-arrow" title="লগআউট">
                         <svg viewBox="0 0 24 24" class="icon">
                             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                             <path d="M16 17l5-5-5-5" />
@@ -1701,11 +1711,13 @@
                 </div>
             </div>
         </header>
+
         <!-- SCROLLABLE CONTENT -->
         <main class="dashboard-content">
             <div class="dashboard-container">
 
-@yield('content')
+                @yield('content')
+
                 <!-- FOOTER -->
                 <footer class="app-footer">
                     <div>খেয়াল v1.0.0</div>
@@ -1722,7 +1734,6 @@
     </div>
 
 </div>
-
 
 @stack('modals')
 
@@ -1773,10 +1784,7 @@
         }
     });
 
-    /* ==========================================
-       AUTH GUARD + SHARED API HELPERS
-       (available to every page that extends this layout)
-    =========================================== */
+    /* AUTH GUARD & HELPERS */
     const API_BASE = '/api';
     const token = localStorage.getItem('token');
 
@@ -1784,7 +1792,6 @@
         window.location.href = '/login';
     }
 
-    
     async function apiFetch(path, options = {}) {
         const headers = {
             'Accept': 'application/json',
@@ -1792,7 +1799,6 @@
             ...(options.headers || {}),
         };
 
-        // FormData হলে Content-Type browser নিজে সেট করবে
         if (!(options.body instanceof FormData)) {
             headers['Content-Type'] = 'application/json';
         }
@@ -1811,7 +1817,6 @@
         return response;
     }
 
-
     function firstBengaliInitial(name) {
         return name && name.trim().length ? name.trim().charAt(0) : '?';
     }
@@ -1828,8 +1833,6 @@
         return d.toLocaleString('bn-BD', { dateStyle: 'medium', timeStyle: 'short' });
     }
 
-    /* Load caregiver profile into the shared topbar; returns the user object
-       so pages can reuse it (e.g. dashboard's welcome heading) without a second fetch. */
     async function loadProfile() {
         const res = await apiFetch('/me');
         if (!res || !res.ok) return null;
@@ -1841,21 +1844,16 @@
         return user;
     }
 
-    /* Logout (shared across every page) */
     document.getElementById('logoutButton')?.addEventListener('click', async () => {
         await apiFetch('/logout', { method: 'POST' });
         localStorage.removeItem('token');
         window.location.href = '/login';
     });
 
-    /* Register the service worker on every page (this alone does not ask for
-       notification permission — that only happens when a page calls
-       subscribeToPush(), e.g. from the /reminders page). */
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js').catch(() => {});
     }
 
-    /* Shared push-subscription helpers, used by the /reminders page */
     function urlBase64ToUint8Array(base64String) {
         const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
         const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
@@ -1908,8 +1906,8 @@
             await subscription.unsubscribe();
         }
     }
+
     @stack('scripts')
 </script>
-
 </body>
 </html>

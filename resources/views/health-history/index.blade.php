@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('page-title', 'স্বাস্থ্য ইতিহাস')
 @section('content')
 
 <style>

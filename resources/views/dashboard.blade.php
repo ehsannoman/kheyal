@@ -29,6 +29,60 @@
     .history-list a.history-item:hover {
         background: #f8fafc;
     }
+    /* Shob icon container-er ager shadow, border o color mismatch purapuri muche dya */
+    .stat-icon,
+    .quick-icon,
+    .icon-patient,
+    .icon-medicine,
+    .icon-success,
+    .icon-warning,
+    .icon-sos,
+    .quick-icon.scan,
+    .quick-icon.history,
+    .quick-icon.appointment,
+    .quick-icon.vital {
+        background: rgba(15, 27, 61, 0.07) !important;
+        background-color: rgba(15, 27, 61, 0.07) !important;
+        box-shadow: none !important;
+        border: none !important;
+        color: #0F1B3D !important;
+    }
+
+    /* Icon SVG stroke uniform Midnight Blue kora */
+    .stat-icon svg,
+    .stat-icon .icon,
+    .quick-icon svg,
+    .quick-icon .icon {
+        stroke: #0F1B3D !important;
+        fill: none !important;
+        filter: none !important;
+    }
+
+    /* SOS text icon-er red shadow & color override */
+    .stat-icon.icon-sos {
+        background: rgba(15, 27, 61, 0.07) !important;
+        color: #0F1B3D !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+    /* Quick action cards - Center Alignment Fix */
+    .quick-actions a.quick-action {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+
+    .quick-actions .quick-title,
+    .quick-actions .quick-text {
+        text-align: center !important;
+        width: 100% !important;
+    }
+
+    .quick-actions .quick-icon {
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
 </style>
 
 <!-- WELCOME -->
@@ -227,7 +281,7 @@
         <a
             href="/sos-alerts"
             class="view-alerts"
-            style="display:block;text-align:center;text-decoration:none;"
+            style="display: flex; align-items: center; justify-content: center; margin-top: 16px; padding: 12px 16px; text-decoration: none;"
         >
             সব সতর্কতা দেখুন
         </a>
